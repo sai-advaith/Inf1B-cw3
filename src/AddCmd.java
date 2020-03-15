@@ -5,8 +5,8 @@ import java.util.Objects;
 public class AddCmd extends LibraryCommand {
     String testPath;
     public AddCmd(String testPath) {
+        super(CommandType.ADD,testPath);
         this.testPath = testPath;
-        // TODO call the library command constructor?
     }
     @Override
     /**
