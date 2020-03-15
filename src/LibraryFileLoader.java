@@ -1,6 +1,8 @@
+import java.awt.print.Book;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,10 +67,30 @@ public class LibraryFileLoader {
      * 
      * @return books parsed from the previously loaded book data or an empty list
      * if no book data has been loaded yet.
-     * @throws UnsupportedOperationException Not implemented yet!
      */
     public List<BookEntry> parseFileContent() {
-        // TODO Remove exception and implement me
-        throw new UnsupportedOperationException("Parsing library files is not yet implemented.");
+
+        List<BookEntry> bookEntryFileContent = new ArrayList<>();
+        try {
+            for (int i = 1;i<fileContent.size();i++) {
+                String[] bookEntryData = dataParser(fileContent.get(i));
+                bookEntryFileContent.add(castData(bookEntryData));
+            }
+        }
+        catch (Exception e) {
+            System.err.println("ERROR: No content loaded before parsing.");
+        }
+        return bookEntryFileContent;
+    }
+    public String[] dataParser(String data) {
+        return data.split(",",0);
+    }
+    public BookEntry castData(String[] fileData) {
+        String title = fileData[0];
+        String[] authors = fileData[1].split("-",0);
+        float rating = Float.parseFloat(fileData[2]);
+        String ISBN = fileData[3];
+        int pages = Integer.parseInt(fileData[4]);
+        return new BookEntry(title,authors,rating,ISBN,pages);
     }
 }
