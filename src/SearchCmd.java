@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,15 +26,15 @@ public class SearchCmd extends LibraryCommand {
         List<BookEntry> booksList = data.getBookData();
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
-            titleList.add(book.getTitle());
+            titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
         if (inString(titleList).size() == 0) {
-            System.out.println("No hits found for search term: "+searchWord);
+            System.out.println("No hits found for search term: "+searchWord);//  the case where the length is zero
         }
         else {
             List<String> matchCases = inString(titleList);
             for (String match : matchCases) {
-                System.out.println(match);
+                System.out.println(match); //  this is the printing of the processed list
             }
         }
     }
@@ -53,7 +50,7 @@ public class SearchCmd extends LibraryCommand {
         //  returning the the match cases
         if (bookTitles.size() != 0) {
             for (String title : bookTitles) {
-                Pattern match = Pattern.compile(searchWord); //  This is the string regex to be searched. Will make sure substring search is done
+                Pattern match = Pattern.compile(searchWord, Pattern.CASE_INSENSITIVE); //  This is the string regex to be searched. Will make sure substring search is done
                 Matcher matchMaker = match.matcher(title); //  This is the matcher in the title of teh loop
                 if (matchMaker.find()) {
                     matchCase.add(title); //  adding in list once found and returning true after that.
@@ -67,15 +64,15 @@ public class SearchCmd extends LibraryCommand {
     /**
      * This is to parse the string based on the requirements of the SEARCH command and is used to check if is a single word
      * @param singleWordSearch is the search word which is later stored in memory
-     * @return true if the word is of length one and otherwise false.
+     * @return true if it is a single word and otherwise false.
      */
     @Override
     protected  boolean parseArguments(String singleWordSearch) {
         Objects.requireNonNull(singleWordSearch,"Cannot be a null Object");
         searchWord = singleWordSearch;
-        if (singleWordSearch.equals("")) {
+        if (singleWordSearch.equals("")) { // handling the case where it is a string of length 0
             return false;
         }
-        return singleWordSearch.split(" ",0).length == 1;
+        return singleWordSearch.split(" ",0).length == 1; //  This is to check if the length of the array is zero.
     }
 }
