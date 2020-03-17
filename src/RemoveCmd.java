@@ -5,9 +5,9 @@ import java.util.Objects;
 public class RemoveCmd extends LibraryCommand {
     String removeArgument;
     /**Constant string which indicates author removal*/
-    public final String AUTHOR_REMOVE = "AUTHOR";
+    public static final String AUTHOR = "AUTHOR";
     /**Constant string which indicates title removal*/
-    public final String TITLE_REMOVE = "TITLE";
+    public static final String TITLE = "TITLE";
 
     /**
      * public constructor to call the super class constructor
@@ -27,11 +27,11 @@ public class RemoveCmd extends LibraryCommand {
     public void execute(LibraryData data) {
         List<BookEntry> bookList = data.getBookData();
         StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
-        if (getRemoveType(removeArgument).equals(AUTHOR_REMOVE)){
+        if (getRemoveType(removeArgument).equals(AUTHOR)){
             String author = getRemoveArg(removeArgument); //  the author of the book to be removed
             removalOutput.append(authorRemoval(bookList,author)).append(" books removed for author: ").append(author); //implemented
         }
-        else if (getRemoveType(removeArgument).equals(TITLE_REMOVE)) {
+        else if (getRemoveType(removeArgument).equals(TITLE)) {
             String title = getRemoveArg(removeArgument); // the title of the book to be removed
             if (titleRemoval(bookList,title)) {
                 removalOutput.append(title).append(": removed successfully."); // removing successfully
@@ -90,7 +90,7 @@ public class RemoveCmd extends LibraryCommand {
         if (firstSpace != -1){
             String removeType = getRemoveType(bookRemoval);
             String removeArg = getRemoveArg(bookRemoval);
-            return (removeType.equals(AUTHOR_REMOVE) || removeType.equals(TITLE_REMOVE)) &&
+            return (removeType.equals(AUTHOR) || removeType.equals(TITLE)) &&
                     !(removeArg.equals("") || removeArg == null);
         }
         else {
