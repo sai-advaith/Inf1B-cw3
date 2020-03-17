@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class RemoveCmd extends LibraryCommand {
@@ -6,16 +8,74 @@ public class RemoveCmd extends LibraryCommand {
     public final String AUTHOR_REMOVE = "AUTHOR";
     /**Constant string which indicates title removal*/
     public final String TITLE_REMOVE = "TITLE";
+
+    /**
+     * public constructor to call the super class constructor
+     * @param removeArgument the argument being assigned to the class variable removeArgument
+     */
     public RemoveCmd(String removeArgument) {
         super(CommandType.REMOVE,removeArgument);
         this.removeArgument = removeArgument;
     }
 
+    /**
+     * This an overriding method is to execute the removeCmd for the library class, where several cases are taken into consideration
+     * If author to be removed then respective output is given, if book then respective is given in that case too.
+     * @param data book data to be considered for command execution.
+     */
     @Override
     public void execute(LibraryData data) {
-
+        List<BookEntry> bookList = data.getBookData();
+        StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
+        if (getRemoveType(removeArgument).equals(AUTHOR_REMOVE)){
+            String author = getRemoveArg(removeArgument); //  the author of the book to be removed
+            removalOutput.append(authorRemoval(bookList,author)).append(" books removed for author: ").append(author); //implemented
+        }
+        else if (getRemoveType(removeArgument).equals(TITLE_REMOVE)) {
+            String title = getRemoveArg(removeArgument); // the title of the book to be removed
+            if (titleRemoval(bookList,title)) {
+                removalOutput.append(title).append(": removed successfully."); // removing successfully
+            }
+            else {
+                removalOutput.append(title).append(": not found.");
+            }
+        }
+        System.out.println(removalOutput);//  printing the entire string to reduce coupling
     }
 
+    /**
+     * This method is to implement the removal of the author
+     * @param books is a list of bookEntry objects
+     * @param author is the author to be removed from the list
+     * @return an integer with the number of authors that have been removed from the list
+     */
+    public int authorRemoval(List<BookEntry> books, String author) {
+        int previous = books.size(); // storing size before removal
+        for (BookEntry book : books) {
+            List<String> bookAuthors = Arrays.asList(book.getAuthors());
+            if (bookAuthors.contains(author)) {
+                books.remove(book); // removing the book
+            }
+        }
+        return previous - books.size(); //  comparing previous size and size after removal
+    }
+
+    /**
+     * This method is to implement the removal of the book
+     * @param books is a list of bookEntry objects
+     * @param title is the title of the book to be removed from the list
+     * @return true if the book can be removed, else false
+     */
+    public boolean titleRemoval(List<BookEntry> books, String title) {
+        boolean removalSuccess = false; // checking if the removal is successful
+        for (BookEntry book : books) {
+            if (book.getTitle().equals(title)) {
+                removalSuccess = true;
+                books.remove(book); //  removing
+            }
+        }
+        return removalSuccess;
+    }
     /**
      * Used to check if the string argument to be removed is valid. Two aspects are checked,
      * One if the argument is AUTHOR or TITLE, and the other if whatever being removed is not an empty string
@@ -28,10 +88,10 @@ public class RemoveCmd extends LibraryCommand {
         removeArgument = bookRemoval;
         int firstSpace = bookRemoval.indexOf(' '); //  Checking the first occurrence of whitespace
         if (firstSpace != -1){
-            String removeArg = splitRemoval(firstSpace,bookRemoval)[0];
-            String removeBook = splitRemoval(firstSpace,bookRemoval)[1];
-            return (removeArg.equals(AUTHOR_REMOVE) || removeArg.equals(TITLE_REMOVE)) &&
-                    !(removeBook.equals("") || removeBook == null);
+            String removeType = getRemoveType(bookRemoval);
+            String removeArg = getRemoveArg(bookRemoval);
+            return (removeType.equals(AUTHOR_REMOVE) || removeType.equals(TITLE_REMOVE)) &&
+                    !(removeArg.equals("") || removeArg == null);
         }
         else {
             return false;
@@ -39,12 +99,20 @@ public class RemoveCmd extends LibraryCommand {
     }
 
     /**
-     * Using to split the AUTHOR or TITLE part of the removal from the author name or title
-     * @param spacePosition is the first position of the space in the string
+     * Using to split the AUTHOR or TITLE part of the removal String from the author name or title
      * @param bookRemoval from which we parse the arguments
-     * @return a string array containing the removal type (i.e. AUTHOR or TITLE) and the author name
+     * @return a string containing the removal type (i.e. AUTHOR or TITLE)
      */
-    public String[] splitRemoval(int spacePosition, String bookRemoval) {
-        return new String[]{bookRemoval.substring(0, spacePosition), bookRemoval.substring(spacePosition + 1)};
+    public String getRemoveType(String bookRemoval) {
+        return bookRemoval.substring(0, bookRemoval.indexOf(' '));
+    }
+
+    /**
+     * Using to split the author name or title part of the removal String from the AUTHOR or TITLE part of the string
+     * @param bookRemoval from which we parse the arguments
+     * @return a string containing the removal argument (i.e. author or title of the book)
+     */
+    public String getRemoveArg(String bookRemoval) {
+        return bookRemoval.substring(bookRemoval.indexOf(' ')+1);
     }
 }
