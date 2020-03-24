@@ -1,4 +1,6 @@
+import java.awt.print.Book;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,10 +53,12 @@ public class RemoveCmd extends LibraryCommand {
      */
     public int authorRemoval(List<BookEntry> books, String author) {
         int previous = books.size(); // storing size before removal
-        for (BookEntry book : books) {
+        Iterator<BookEntry> bookIter = books.iterator(); // declaring iterator
+        while (bookIter.hasNext()) {
+            BookEntry book = bookIter.next();
             List<String> bookAuthors = Arrays.asList(book.getAuthors());
             if (bookAuthors.contains(author)) {
-                books.remove(book); // removing the book
+                bookIter.remove(); // removing the book
             }
         }
         return previous - books.size(); //  comparing previous size and size after removal
@@ -68,10 +72,12 @@ public class RemoveCmd extends LibraryCommand {
      */
     public boolean titleRemoval(List<BookEntry> books, String title) {
         boolean removalSuccess = false; // checking if the removal is successful
-        for (BookEntry book : books) {
+        Iterator<BookEntry> bookIter = books.iterator();
+        while(bookIter.hasNext()) {
+            BookEntry book = bookIter.next();
             if (book.getTitle().equals(title)) {
                 removalSuccess = true;
-                books.remove(book); //  removing
+                bookIter.remove(); //  removing
             }
         }
         return removalSuccess;

@@ -53,7 +53,7 @@ public class ListCmd extends LibraryCommand {
             }
         }
 
-        System.out.println(listOutput);
+        System.out.println(listOutput.toString().trim());
     }
 
     /**
