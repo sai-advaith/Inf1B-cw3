@@ -30,7 +30,8 @@ public class GroupCmd extends LibraryCommand {
         }
         else if(groupArgument.equals(RemoveCmd.AUTHOR)) {
             groupMap = authorGroup(books);
-            TreeMap<String,List<String>> sortedMap = new TreeMap<>(groupMap);
+            Map<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+            sortedMap = groupMap;
             System.out.println(mapOutput(sortedMap).trim()); // trimming to get rid off the new lines at the end of the ouput
         }
     }
