@@ -66,8 +66,8 @@ public class ListCmd extends LibraryCommand {
     protected boolean parseArguments(String listType) {
         Objects.requireNonNull(listType,"Cannot be null");
         listArgument = listType;
-        return  listType.equalsIgnoreCase(LONG) ||
-                listType.equalsIgnoreCase(SHORT_1) ||
-                listType.equalsIgnoreCase(SHORT_2); //  checking all cases
+        return  listType.equals(LONG) ||
+                listType.equals(SHORT_1) ||
+                listType.equals(SHORT_2); //  checking all cases
     }
 }
