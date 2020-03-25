@@ -14,25 +14,24 @@ public class GroupCmd extends LibraryCommand {
         super(CommandType.GROUP,groupArgument);
         this.groupArgument = groupArgument;
     }
-//TODO: Fix indentation
-    @Override
     /**
      * This is the overriding execute method which prints the books in a group based on user request
      * @param data is the LibraryData object which is used to access the book data
      */
+    @Override
     public void execute(LibraryData data) {
         List<BookEntry> books = data.getBookData();
-        Map<String, List<String>> groupMap = new HashMap<String, List<String>>(); // hashmap to manipulate the data
+        Map<String, List<String>> groupMap = new HashMap<String, List<String>>(); // hashMap to manipulate the data
+        TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
         if(groupArgument.equals(RemoveCmd.TITLE)) {
             groupMap = titleGroup(books);
-            TreeMap<String,List<String>> sortedMap = new TreeMap<>(groupMap); //  using a tree map to sort by keys
+            sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
             System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
         }
         else if(groupArgument.equals(RemoveCmd.AUTHOR)) {
             groupMap = authorGroup(books);
-            Map<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-            sortedMap = groupMap;
-            System.out.println(mapOutput(sortedMap).trim()); // trimming to get rid off the new lines at the end of the ouput
+            sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
+            System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
         }
     }
 
@@ -75,7 +74,7 @@ public class GroupCmd extends LibraryCommand {
      * @return the hashmap with all the books sorted in that fashion
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
-        String nonNumericTitle = "[0-9]";
+        String numericTitle = "[0-9]"; // if not starting with letters
         Map<String, List<String>> titleMap = new HashMap<String, List<String>>();
         for (BookEntry book : books) {
             if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
@@ -87,10 +86,10 @@ public class GroupCmd extends LibraryCommand {
             }
             // adding based on whether the key's existence
             else {
-                if (!titleMap.containsKey(nonNumericTitle)) {
-                    titleMap.put(nonNumericTitle,new ArrayList<>());
+                if (!titleMap.containsKey(numericTitle)) {
+                    titleMap.put(numericTitle,new ArrayList<>());
                 }
-                titleMap.get(nonNumericTitle).add(book.getTitle());
+                titleMap.get(numericTitle).add(book.getTitle());
             }
         }
         return titleMap;
@@ -102,7 +101,7 @@ public class GroupCmd extends LibraryCommand {
      * @return the hashMap which contains the books grouped based on the authors
      */
     public Map<String,List<String>> authorGroup(List<BookEntry> books) {
-        Map<String,List<String>> authorMap = new HashMap<String, List<String>>();
+        Map<String,List<String>> authorMap = new HashMap<>();
         for (BookEntry book : books) {
             for (String author : book.getAuthors()) {//placing the books based on the existence of the authors in the map
                 if (!authorMap.containsKey(author)) {
