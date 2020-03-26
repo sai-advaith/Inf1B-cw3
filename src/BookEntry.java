@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -113,7 +114,7 @@ public class BookEntry {
     public String toString() {
         return  title + '\n' +
                 "by " + Arrays.toString(authors).substring(1,Arrays.toString(authors).length()-1) + '\n' +
-                "Rating: " + String.format("%.02f",rating) + '\n' +
+                "Rating: " + String.format(Locale.US,"%.02f",rating) + '\n' +
                 "ISBN: " + ISBN + '\n' +
                 pages + " pages";
     }
