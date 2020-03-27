@@ -4,14 +4,15 @@ import java.util.Objects;
 
 public class AddCmd extends LibraryCommand {
     String testPath;
+    public final String CSV_EXTENSION = ".csv";
     public AddCmd(String testPath) {
         super(CommandType.ADD,testPath);
         this.testPath = testPath;
     }
-    @Override
     /**
      * This is a void method which is used to execute the loadData method from the Path object
      */
+    @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,"Object cannot be null");
         data.loadData(Paths.get(testPath));
@@ -26,12 +27,13 @@ public class AddCmd extends LibraryCommand {
     protected boolean parseArguments(String argumentInput) {
         Objects.requireNonNull(argumentInput,"String type cannot be null");
         String fileNameParsed = new File(argumentInput).getName(); // name of the file parsed
+        this.testPath = fileNameParsed;
         if (fileNameParsed.indexOf('.') == -1) {
             return false;
         }
         else {
             String extensionType = fileNameParsed.substring(fileNameParsed.indexOf('.'));
-            return extensionType.equals(".csv");
+            return extensionType.equals(CSV_EXTENSION);
         }
     }
 }

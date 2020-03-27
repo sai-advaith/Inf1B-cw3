@@ -31,7 +31,11 @@ public class RemoveCmd extends LibraryCommand {
         StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
         if (getRemoveType(removeArgument).equals(AUTHOR)){
             String author = getRemoveArg(removeArgument); //  the author of the book to be removed
-            removalOutput.append(authorRemoval(bookList,author)).append(" books removed for author: ").append(author); //implemented
+            int removedBooks = authorRemoval(bookList,author);
+            if (removedBooks == 0) {
+                removalOutput.append(author).append(": not found.").append("\n");
+            }
+            removalOutput.append(removedBooks).append(" books removed for author: ").append(author); //implemented
         }
         else if (getRemoveType(removeArgument).equals(TITLE)) {
             String title = getRemoveArg(removeArgument); // the title of the book to be removed

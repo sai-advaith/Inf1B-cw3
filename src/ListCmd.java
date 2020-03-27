@@ -9,9 +9,7 @@ public class ListCmd extends LibraryCommand {
     /**String for long listing*/
     public final String LONG = "long";
     /**String 1 for short listing*/
-    public final String SHORT_1 = "short";
-    /**String 2 for short listing*/
-    public final String SHORT_2 = "";
+    public final String SHORT = "short";
 
     /**
      * Parameterized constructor to call the super class constructor
@@ -38,7 +36,7 @@ public class ListCmd extends LibraryCommand {
         }
         else {
             listOutput.append(listCmdBooks.size()).append(" books in library:\n");
-            if (listArgument.equalsIgnoreCase(SHORT_1) || listArgument.equalsIgnoreCase(SHORT_2)) {
+            if (listArgument.equalsIgnoreCase(SHORT) || listArgument.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
                     BookEntry book = iterator.next();
                     listOutput.append(book.getTitle()).append('\n');
@@ -67,7 +65,7 @@ public class ListCmd extends LibraryCommand {
         Objects.requireNonNull(listType,"Cannot be null");
         listArgument = listType;
         return  listType.equals(LONG) ||
-                listType.equals(SHORT_1) ||
-                listType.equals(SHORT_2); //  checking all cases
+                listType.equals(SHORT) ||
+                listType.isBlank(); //  checking all cases
     }
 }
