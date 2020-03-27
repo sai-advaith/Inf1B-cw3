@@ -23,15 +23,17 @@ public class GroupCmd extends LibraryCommand {
         List<BookEntry> books = data.getBookData();
         Map<String, List<String>> groupMap = new HashMap<String, List<String>>(); // hashMap to manipulate the data
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
-        if(groupField.equals(RemoveCmd.TITLE)) {
-            groupMap = titleGroup(books);
-            sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
-            System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
-        }
-        else if(groupField.equals(RemoveCmd.AUTHOR)) {
-            groupMap = authorGroup(books);
-            sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
-            System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
+        switch(groupField) {
+            case RemoveCmd.TITLE:
+                groupMap = titleGroup(books);
+                sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
+                System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
+                break;
+            case RemoveCmd.AUTHOR:
+                groupMap = authorGroup(books);
+                sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
+                System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
+                break;
         }
     }
 
