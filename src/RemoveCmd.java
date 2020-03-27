@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class RemoveCmd extends LibraryCommand {
-    String removeArgument;
+    String removeField;
     /**Constant string which indicates author removal*/
     public static final String AUTHOR = "AUTHOR";
     /**Constant string which indicates title removal*/
@@ -13,11 +13,11 @@ public class RemoveCmd extends LibraryCommand {
 
     /**
      * public constructor to call the super class constructor
-     * @param removeArgument the argument being assigned to the class variable removeArgument
+     * @param removeField the argument being assigned to the class variable removeArgument
      */
-    public RemoveCmd(String removeArgument) {
-        super(CommandType.REMOVE,removeArgument);
-        this.removeArgument = removeArgument;
+    public RemoveCmd(String removeField) {
+        super(CommandType.REMOVE,removeField);
+        this.removeField = removeField;
     }
 
     /**
@@ -29,22 +29,24 @@ public class RemoveCmd extends LibraryCommand {
     public void execute(LibraryData data) {
         List<BookEntry> bookList = data.getBookData();
         StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
-        if (getRemoveType(removeArgument).equals(AUTHOR)){
-            String author = getRemoveArg(removeArgument); //  the author of the book to be removed
-            int removedBooks = authorRemoval(bookList,author);
-            if (removedBooks == 0) {
-                removalOutput.append(author).append(": not found.").append("\n");
-            }
-            removalOutput.append(removedBooks).append(" books removed for author: ").append(author); //implemented
-        }
-        else if (getRemoveType(removeArgument).equals(TITLE)) {
-            String title = getRemoveArg(removeArgument); // the title of the book to be removed
-            if (titleRemoval(bookList,title)) {
-                removalOutput.append(title).append(": removed successfully."); // removing successfully
-            }
-            else {
-                removalOutput.append(title).append(": not found.");
-            }
+        switch (getRemoveType(removeField)) {
+            case AUTHOR:
+                String author = getRemoveArg(removeField); //  the author of the book to be removed
+                int removedBooks = authorRemoval(bookList,author);
+                if (removedBooks == 0) {
+                    removalOutput.append(author).append(": not found.").append("\n");
+                }
+                removalOutput.append(removedBooks).append(" books removed for author: ").append(author); //implemented
+                break;
+            case TITLE:
+                String title = getRemoveArg(removeField); // the title of the book to be removed
+                if (titleRemoval(bookList,title)) {
+                    removalOutput.append(title).append(": removed successfully."); // removing successfully
+                }
+                else {
+                    removalOutput.append(title).append(": not found.");
+                }
+                break;
         }
         System.out.println(removalOutput);//  printing the entire string to reduce coupling
     }
@@ -89,17 +91,17 @@ public class RemoveCmd extends LibraryCommand {
     /**
      * Used to check if the string argument to be removed is valid. Two aspects are checked,
      * One if the argument is AUTHOR or TITLE, and the other if whatever being removed is not an empty string
-     * @param bookRemoval is the argument which contains the string where we are told about what to be removed
+     * @param removeInput is the argument which contains the string where we are told about what to be removed
      * @return true if the argument being returned is valid and can hence be excuted by us
      */
     @Override
-    protected boolean parseArguments(String bookRemoval) {
-        Objects.requireNonNull(bookRemoval,"String cannot be null");
-        removeArgument = bookRemoval;
-        int firstSpace = bookRemoval.indexOf(' '); //  Checking the first occurrence of whitespace
+    protected boolean parseArguments(String removeInput) {
+        Objects.requireNonNull(removeInput,"String cannot be null");
+        this.removeField = removeInput;
+        int firstSpace = removeInput.indexOf(' '); //  Checking the first occurrence of whitespace
         if (firstSpace != -1){
-            String removeType = getRemoveType(bookRemoval);
-            String removeArg = getRemoveArg(bookRemoval);
+            String removeType = getRemoveType(removeInput);
+            String removeArg = getRemoveArg(removeInput);
             return (removeType.equals(AUTHOR) || removeType.equals(TITLE)) &&
                     !(removeArg.equals("") || removeArg == null);
         }

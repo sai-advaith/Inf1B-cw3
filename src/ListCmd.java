@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class ListCmd extends LibraryCommand {
     /**This is to store the user input*/
-    String listArgument;
+    String listField;
 
     /**String for long listing*/
     public final String LONG = "long";
@@ -13,11 +13,11 @@ public class ListCmd extends LibraryCommand {
 
     /**
      * Parameterized constructor to call the super class constructor
-     * @param listArgument this is the constructor argument and is initialized to the list argument by default
+     * @param listField this is the constructor argument and is initialized to the list argument by default
      */
-    public ListCmd(String listArgument) {
-        super(CommandType.LIST,listArgument);
-        this.listArgument = listArgument;
+    public ListCmd(String listField) {
+        super(CommandType.LIST,listField);
+        this.listField = listField;
     }
 
     /**
@@ -36,13 +36,13 @@ public class ListCmd extends LibraryCommand {
         }
         else {
             listOutput.append(listCmdBooks.size()).append(" books in library:\n");
-            if (listArgument.equalsIgnoreCase(SHORT) || listArgument.isBlank()) {
+            if (listField.equalsIgnoreCase(SHORT) || listField.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
                     BookEntry book = iterator.next();
                     listOutput.append(book.getTitle()).append('\n');
                 }
             }
-            else if (listArgument.equalsIgnoreCase(LONG)) {
+            else if (listField.equalsIgnoreCase(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
                     BookEntry book = iterator.next();
                     listOutput.append(book.toString());
@@ -57,15 +57,15 @@ public class ListCmd extends LibraryCommand {
     /**
      * This method is an overriding method for parsing the arguments and making sure the arguments received are long or short
      * Instead of using magic strings we have written it as constants in the class
-     * @param listType this is the argument coming along with the list command type
+     * @param listInput this is the argument coming along with the list command type
      * @return This gives whether our argument is valid or not based on whether it is short or long
      */
     @Override
-    protected boolean parseArguments(String listType) {
-        Objects.requireNonNull(listType,"Cannot be null");
-        listArgument = listType;
-        return  listType.equals(LONG) ||
-                listType.equals(SHORT) ||
-                listType.isBlank(); //  checking all cases
+    protected boolean parseArguments(String listInput) {
+        Objects.requireNonNull(listInput,"Cannot be null");
+        this.listField = listInput;
+        return  listInput.equals(LONG) ||
+                listInput.equals(SHORT) ||
+                listInput.isBlank(); //  checking all cases
     }
 }

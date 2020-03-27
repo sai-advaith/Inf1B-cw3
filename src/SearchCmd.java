@@ -3,16 +3,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SearchCmd extends LibraryCommand {
-    String searchWord;
+    String searchField;
 
     /**
      * This is the constructor which calls the constructor in library command, the parent constructor
-     * @param searchWord is the word to be searched
+     * @param searchField is the word to be searched
      */
-    public SearchCmd(String searchWord) {
-        super(CommandType.SEARCH,searchWord);
-        Objects.requireNonNull(searchWord);
-        this.searchWord = searchWord;
+    public SearchCmd(String searchField) {
+        super(CommandType.SEARCH,searchField);
+        Objects.requireNonNull(searchField);
+        this.searchField = searchField;
     }
 
     /**
@@ -29,7 +29,7 @@ public class SearchCmd extends LibraryCommand {
             titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
         if (inString(titleList).size() == 0) {
-            System.out.println("No hits found for search term: "+searchWord);//  the case where the length is zero
+            System.out.println("No hits found for search term: "+searchField);//  the case where the length is zero
         }
         else {
             List<String> matchCases = inString(titleList);
@@ -50,7 +50,7 @@ public class SearchCmd extends LibraryCommand {
         //  returning the the match cases
         if (bookTitles.size() != 0) {
             for (String title : bookTitles) {
-                Pattern match = Pattern.compile(searchWord, Pattern.CASE_INSENSITIVE); //  This is the string regex to be searched. Will make sure substring search is done
+                Pattern match = Pattern.compile(searchField, Pattern.CASE_INSENSITIVE); //  This is the string regex to be searched. Will make sure substring search is done
                 Matcher matchMaker = match.matcher(title); //  This is the matcher in the title of teh loop
                 if (matchMaker.find()) {
                     matchCase.add(title); //  adding in list once found and returning true after that.
@@ -63,16 +63,16 @@ public class SearchCmd extends LibraryCommand {
 
     /**
      * This is to parse the string based on the requirements of the SEARCH command and is used to check if is a single word
-     * @param singleWordSearch is the search word which is later stored in memory
+     * @param searchInput is the search word which is later stored in memory
      * @return true if it is a single word and otherwise false.
      */
     @Override
-    protected  boolean parseArguments(String singleWordSearch) {
-        Objects.requireNonNull(singleWordSearch,"Cannot be a null Object");
-        searchWord = singleWordSearch;
-        if (singleWordSearch.equals("")) { // handling the case where it is a string of length 0
+    protected  boolean parseArguments(String searchInput) {
+        Objects.requireNonNull(searchInput,"Cannot be a null Object");
+        searchField = searchInput;
+        if (searchInput.equals("")) { // handling the case where it is a string of length 0
             return false;
         }
-        return singleWordSearch.split(" ",0).length == 1; //  This is to check if the length of the array is zero.
+        return searchInput.split(" ",0).length == 1; //  This is to check if the length of the array is zero.
     }
 }

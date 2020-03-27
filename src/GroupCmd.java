@@ -4,15 +4,15 @@ import java.awt.print.Book;
 import java.util.*;
 
 public class GroupCmd extends LibraryCommand {
-    String groupArgument; //  argument to store the user input
+    String groupField; //  argument to store the user input
 
     /**
      * Constructor of group Command to instantiate the parameters
-     * @param groupArgument is the parameter of the constructor
+     * @param groupField is the parameter of the constructor
      */
-    public GroupCmd(String groupArgument) {
-        super(CommandType.GROUP,groupArgument);
-        this.groupArgument = groupArgument;
+    public GroupCmd(String groupField) {
+        super(CommandType.GROUP,groupField);
+        this.groupField = groupField;
     }
     /**
      * This is the overriding execute method which prints the books in a group based on user request
@@ -23,12 +23,12 @@ public class GroupCmd extends LibraryCommand {
         List<BookEntry> books = data.getBookData();
         Map<String, List<String>> groupMap = new HashMap<String, List<String>>(); // hashMap to manipulate the data
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
-        if(groupArgument.equals(RemoveCmd.TITLE)) {
+        if(groupField.equals(RemoveCmd.TITLE)) {
             groupMap = titleGroup(books);
             sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
             System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
         }
-        else if(groupArgument.equals(RemoveCmd.AUTHOR)) {
+        else if(groupField.equals(RemoveCmd.AUTHOR)) {
             groupMap = authorGroup(books);
             sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
             System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
@@ -46,7 +46,7 @@ public class GroupCmd extends LibraryCommand {
             output.append("The library has no book entries.");//  the case where the hashmap has no values
        }
        else {//  printing the particular hashmap
-            output.append("Grouped data by ").append(groupArgument).append("\n");
+            output.append("Grouped data by ").append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                output.append("## ").append(arg.getKey()).append("\n");
                output.append(listToString(arg.getValue()));
@@ -120,8 +120,8 @@ public class GroupCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String groupInput) {
-        groupArgument = groupInput;
         Objects.requireNonNull(groupInput);
+        this.groupField = groupInput;
         return groupInput.equals(RemoveCmd.AUTHOR) || groupInput.equals(RemoveCmd.TITLE); // checking if author or title
     }
 }
