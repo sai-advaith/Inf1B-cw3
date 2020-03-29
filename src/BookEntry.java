@@ -28,16 +28,11 @@ public class BookEntry {
      * @throws NullPointerException is thrown is any of the objects being passed into the constructor are null
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
-        if (title == null) {
-            throw new NullPointerException("Title cannot be null");
-        }
-        else if (authors == null) {
-            throw new NullPointerException("Authors cannot be null");
-        }
-        else if (ISBN == null) {
-            throw new NullPointerException("ISBN cannot be null");
-        }
-        else if (authors.length == 0) {
+        Objects.requireNonNull(title,"Title cannot be null");
+        Objects.requireNonNull(authors,"Authors cannot be null");
+        Objects.requireNonNull(ISBN,"ISBN cannot be null");
+
+        if (authors.length == 0) {
             throw new IllegalArgumentException("There cannot be 0 authors");
         }
         else if (Arrays.asList(authors).contains(null)) {
@@ -78,7 +73,7 @@ public class BookEntry {
      * @return the authors of the book
      */
     public String[] getAuthors() {
-        return authors;
+        return this.authors;
     }
 
     /**
@@ -86,7 +81,7 @@ public class BookEntry {
      * @return the rating of the book
      */
     public float getRating() {
-        return rating;
+        return this.rating;
     }
 
     /**
@@ -94,7 +89,7 @@ public class BookEntry {
      * @return
      */
     public String getISBN() {
-        return ISBN;
+        return this.ISBN;
     }
 
 
@@ -103,7 +98,7 @@ public class BookEntry {
      * @return the pages of the book
      */
     public int getPages() {
-        return pages;
+        return this.pages;
     }
 
     /**

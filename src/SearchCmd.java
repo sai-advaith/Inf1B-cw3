@@ -3,7 +3,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SearchCmd extends LibraryCommand {
-    String searchField;
+    private String searchField;
 
     /**
      * This is the constructor which calls the constructor in library command, the parent constructor
@@ -12,7 +12,6 @@ public class SearchCmd extends LibraryCommand {
     public SearchCmd(String searchField) {
         super(CommandType.SEARCH,searchField);
         Objects.requireNonNull(searchField);
-        this.searchField = searchField;
     }
 
     /**

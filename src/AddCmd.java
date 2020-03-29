@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public class AddCmd extends LibraryCommand {
-    String addField;
+    private String addField;
     public final String CSV_EXTENSION = ".csv";
 
     /**
@@ -12,7 +12,7 @@ public class AddCmd extends LibraryCommand {
      */
     public AddCmd(String addField) {
         super(CommandType.ADD,addField);
-        this.addField = addField;
+        Objects.requireNonNull(addField);
     }
     /**
      * This is a void method which is used to execute the loadData method from the Path object

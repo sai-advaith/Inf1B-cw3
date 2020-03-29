@@ -4,7 +4,7 @@ import java.awt.print.Book;
 import java.util.*;
 
 public class GroupCmd extends LibraryCommand {
-    String groupField; //  argument to store the user input
+    private String groupField; //  argument to store the user input
 
     /**
      * Constructor of group Command to instantiate the parameters
@@ -12,7 +12,7 @@ public class GroupCmd extends LibraryCommand {
      */
     public GroupCmd(String groupField) {
         super(CommandType.GROUP,groupField);
-        this.groupField = groupField;
+        Objects.requireNonNull(groupField);
     }
     /**
      * This is the overriding execute method which prints the books in a group based on user request
@@ -86,10 +86,9 @@ public class GroupCmd extends LibraryCommand {
                 }
                 titleMap.get(titleCategory).add(book.getTitle());
             }
-            // adding based on whether the key's existence
             else {
                 if (!titleMap.containsKey(numericTitle)) {
-                    titleMap.put(numericTitle,new ArrayList<>());
+                    titleMap.put(numericTitle,new ArrayList<>()); // adding based on whether the key's existence
                 }
                 titleMap.get(numericTitle).add(book.getTitle());
             }

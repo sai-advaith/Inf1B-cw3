@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class RemoveCmd extends LibraryCommand {
-    String removeField;
+    private String removeField;
     /**Constant string which indicates author removal*/
     public static final String AUTHOR = "AUTHOR";
     /**Constant string which indicates title removal*/
     public static final String TITLE = "TITLE";
+    /**Constant string which indicates white space*/
+    public static final String WHITE_SPACE = " ";
 
     /**
      * public constructor to call the super class constructor
@@ -17,7 +19,7 @@ public class RemoveCmd extends LibraryCommand {
      */
     public RemoveCmd(String removeField) {
         super(CommandType.REMOVE,removeField);
-        this.removeField = removeField;
+        Objects.requireNonNull(removeField);
     }
 
     /**
@@ -98,12 +100,12 @@ public class RemoveCmd extends LibraryCommand {
     protected boolean parseArguments(String removeInput) {
         Objects.requireNonNull(removeInput,"String cannot be null");
         this.removeField = removeInput;
-        int firstSpace = removeInput.indexOf(' '); //  Checking the first occurrence of whitespace
+        int firstSpace = removeInput.indexOf(WHITE_SPACE); //  Checking the first occurrence of whitespace
         if (firstSpace != -1){
             String removeType = getRemoveType(removeInput);
             String removeArg = getRemoveArg(removeInput);
             return (removeType.equals(AUTHOR) || removeType.equals(TITLE)) &&
-                    !(removeArg.equals("") || removeArg == null);
+                    !(removeArg.isBlank());
         }
         else {
             return false;
@@ -116,7 +118,7 @@ public class RemoveCmd extends LibraryCommand {
      * @return a string containing the removal type (i.e. AUTHOR or TITLE)
      */
     public String getRemoveType(String bookRemoval) {
-        return bookRemoval.substring(0, bookRemoval.indexOf(' '));
+        return bookRemoval.substring(0, bookRemoval.indexOf(WHITE_SPACE));
     }
 
     /**
@@ -125,6 +127,6 @@ public class RemoveCmd extends LibraryCommand {
      * @return a string containing the removal argument (i.e. author or title of the book)
      */
     public String getRemoveArg(String bookRemoval) {
-        return bookRemoval.substring(bookRemoval.indexOf(' ')+1);
+        return bookRemoval.substring(bookRemoval.indexOf(WHITE_SPACE)+1);
     }
 }

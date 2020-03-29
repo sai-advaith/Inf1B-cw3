@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class ListCmd extends LibraryCommand {
     /**This is to store the user input*/
-    String listField;
+    private String listField;
 
     /**String for long listing*/
     public final String LONG = "long";
@@ -17,7 +17,7 @@ public class ListCmd extends LibraryCommand {
      */
     public ListCmd(String listField) {
         super(CommandType.LIST,listField);
-        this.listField = listField;
+        Objects.requireNonNull(listField);
     }
 
     /**
