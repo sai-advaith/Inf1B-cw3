@@ -63,9 +63,12 @@ public class ListCmd extends LibraryCommand {
     @Override
     protected boolean parseArguments(String listInput) {
         Objects.requireNonNull(listInput,"Cannot be null");
-        this.listField = listInput;
-        return  listInput.equals(LONG) ||
-                listInput.equals(SHORT) ||
-                listInput.isBlank(); //  checking all cases
+        if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
+            listField = listInput;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

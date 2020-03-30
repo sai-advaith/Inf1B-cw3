@@ -68,10 +68,16 @@ public class SearchCmd extends LibraryCommand {
     @Override
     protected  boolean parseArguments(String searchInput) {
         Objects.requireNonNull(searchInput,"Cannot be a null Object");
-        searchField = searchInput;
-        if (searchInput.equals("")) { // handling the case where it is a string of length 0
-            return false;
+
+        if (searchInput.isBlank()) { // handling the case where it is a string of length 0
         }
-        return searchInput.split(" ",0).length == 1; //  This is to check if the length of the array is zero.
+        else {
+            if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
+                searchField = searchInput;
+                return true;//  This is to check if the length of the array is zero.
+            }
+        }
+        return false;
+
     }
 }

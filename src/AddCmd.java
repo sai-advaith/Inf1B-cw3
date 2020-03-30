@@ -32,13 +32,16 @@ public class AddCmd extends LibraryCommand {
     protected boolean parseArguments(String addInput) {
         Objects.requireNonNull(addInput,"String type cannot be null");
         String fileNameParsed = new File(addInput).getName(); // name of the file parsed
-        this.addField = fileNameParsed;
         if (fileNameParsed.indexOf('.') == -1) {
             return false;
         }
         else {
             String extensionType = fileNameParsed.substring(fileNameParsed.indexOf('.'));
-            return extensionType.equals(CSV_EXTENSION);
+            if (extensionType.equals(CSV_EXTENSION)) {
+                addField = fileNameParsed;
+                return true;
+            }
+            else return false;
         }
     }
 }
