@@ -24,8 +24,6 @@ public final class CommandFactory { // the final keyword prevents subclassing of
     public static LibraryCommand createCommand(CommandType cmdType, String argumentInput) {
         Objects.requireNonNull(cmdType, "Given command type must not be null.");
         Objects.requireNonNull(argumentInput, "Given argument input must not be null.");
-
-        try {
             switch(cmdType) {
                 case HELP: return new HelpCmd(argumentInput);
                 case EXIT: return new ExitCmd(argumentInput);
@@ -35,10 +33,6 @@ public final class CommandFactory { // the final keyword prevents subclassing of
                 case REMOVE: return new RemoveCmd(argumentInput);
                 case GROUP: return new GroupCmd(argumentInput);
             }
-        } catch (IllegalArgumentException e) {
-            System.err.println("ERROR: " + e.getMessage());
-        }
-
         return null;
     }
 }
