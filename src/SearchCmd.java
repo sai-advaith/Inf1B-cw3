@@ -19,7 +19,8 @@ public class SearchCmd extends LibraryCommand {
      * @param data book data to be considered for command execution.
      * This prints the titleList of the titles which occur in the list
      */
-    // TODO: IMPLEMENT REGEX IN PARSING AND CONTAINS IN SEARCH
+    // TODO: IMPLEMENT REGEX PARSING
+    // TODO: CONTAINS IN SEARCH
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,"Cannot be of null type");
@@ -50,10 +51,8 @@ public class SearchCmd extends LibraryCommand {
         //  returning the the match cases
         if (bookTitles.size() != 0) {
             for (String title : bookTitles) {
-                Pattern match = Pattern.compile(searchField, Pattern.CASE_INSENSITIVE); //  This is the string regex to be searched. Will make sure substring search is done
-                Matcher matchMaker = match.matcher(title); //  This is the matcher in the title of teh loop
-                if (matchMaker.find()) {
-                    matchCase.add(title); //  adding in list once found and returning true after that.
+                if (title.toLowerCase().contains(searchField.toLowerCase())) {
+                    matchCase.add(title);
                 }
             }
         }
@@ -69,10 +68,7 @@ public class SearchCmd extends LibraryCommand {
     @Override
     protected  boolean parseArguments(String searchInput) {
         Objects.requireNonNull(searchInput,"Cannot be a null Object");
-
-        if (searchInput.isBlank()) { // handling the case where it is a string of length 0
-        }
-        else {
+        if (!searchInput.isBlank()) {
             if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
                 searchField = searchInput;
                 return true;//  This is to check if the length of the array is zero.

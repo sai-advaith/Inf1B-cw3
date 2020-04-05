@@ -35,9 +35,6 @@ public class RemoveCmd extends LibraryCommand {
             case AUTHOR:
                 String author = getRemoveArg(removeField); //  the author of the book to be removed
                 int removedBooks = authorRemoval(bookList,author);
-                if (removedBooks == 0) {
-                    removalOutput.append(author).append(": not found.").append("\n");
-                }
                 removalOutput.append(removedBooks).append(" books removed for author: ").append(author); //implemented
                 break;
             case TITLE:
