@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -26,6 +27,8 @@ public class BookEntry {
      * @param pages is the number of pages in a book and will be initialized to the encapsulated class variable pages
      * @throws IllegalArgumentException is thrown if any of the parameters of the constructor are not valid and hence need to be handled
      * @throws NullPointerException is thrown is any of the objects being passed into the constructor are null
+     * @throws ArithmeticException is thrown if the rating is positive or negative infinity or NaN.
+     * @throws InputMismatchException is thrown if the number of pages in the book is more than max value for integer
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
         Objects.requireNonNull(title,"Title cannot be null");
@@ -36,7 +39,7 @@ public class BookEntry {
             throw new IllegalArgumentException("There cannot be 0 authors");
         }
         else if (Arrays.asList(authors).contains(null)) {
-            throw new IllegalArgumentException("No author cannot be null");
+            throw new NullPointerException("No author cannot be null");
         }
         else if(title.length() == 0) {
             throw new IllegalArgumentException("Title cannot be of length 0");
@@ -44,12 +47,19 @@ public class BookEntry {
         else if(ISBN.length() == 0) {
             throw new IllegalArgumentException("ISBN length cannot be 0");
         }
+        else if(Double.isNaN(rating) || Double.isInfinite(rating) || Double.isNaN(pages)) {
+            throw new ArithmeticException("Illegal value");
+        }
         else if (rating <0.0) {
             throw new IllegalArgumentException("Rating cannot negative");
         }
         else if (rating > 5.0) {
             throw new IllegalArgumentException("Rating cannot be more than 5");
         }
+        else if (pages >= Integer.MAX_VALUE || pages <= Integer.MIN_VALUE) {
+            throw new InputMismatchException("Invalid pages");
+        }
+
         else if (pages < 0) {
             throw new IllegalArgumentException("Pages cannot be negative");
         }
