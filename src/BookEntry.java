@@ -86,7 +86,7 @@ public class BookEntry {
 
     /**
      * This is the getter method to attain the ISBN code of the book
-     * @return
+     * @return the ISBN code of the book
      */
     public String getISBN() {
         return this.ISBN;

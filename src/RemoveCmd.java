@@ -91,7 +91,7 @@ public class RemoveCmd extends LibraryCommand {
      * Used to check if the string argument to be removed is valid. Two aspects are checked,
      * One if the argument is AUTHOR or TITLE, and the other if whatever being removed is not an empty string
      * @param removeInput is the argument which contains the string where we are told about what to be removed
-     * @return true if the argument being returned is valid and can hence be excuted by us
+     * @return true if the argument being returned is valid and can hence be executed by us
      */
     @Override
     protected boolean parseArguments(String removeInput) {
@@ -108,9 +108,7 @@ public class RemoveCmd extends LibraryCommand {
                 return false;
             }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**

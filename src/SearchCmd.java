@@ -1,6 +1,4 @@
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SearchCmd extends LibraryCommand {
     private String searchField;
@@ -19,8 +17,6 @@ public class SearchCmd extends LibraryCommand {
      * @param data book data to be considered for command execution.
      * This prints the titleList of the titles which occur in the list
      */
-    // TODO: IMPLEMENT REGEX PARSING
-    // TODO: CONTAINS IN SEARCH
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,"Cannot be of null type");

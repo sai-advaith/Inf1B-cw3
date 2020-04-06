@@ -1,11 +1,10 @@
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Objects;
-
 public class AddCmd extends LibraryCommand {
     private String addField;
     public final String CSV_EXTENSION = ".csv";
-
+    public final String DOT = ".";
     /**
      * This is the constructor of the Add Command class calling the superclass constructor
      * @param addField is the field which contains the book file to be added
@@ -32,11 +31,11 @@ public class AddCmd extends LibraryCommand {
     protected boolean parseArguments(String addInput) {
         Objects.requireNonNull(addInput,"String type cannot be null");
         String fileNameParsed = new File(addInput).getName(); // name of the file parsed
-        if (fileNameParsed.indexOf('.') == -1) {
+        if (!fileNameParsed.contains(DOT)) {
             return false;
         }
         else {
-            String extensionType = fileNameParsed.substring(fileNameParsed.indexOf('.'));
+            String extensionType = fileNameParsed.substring(fileNameParsed.indexOf(DOT));
             if (extensionType.equals(CSV_EXTENSION)) {
                 addField = fileNameParsed;
                 return true;

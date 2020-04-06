@@ -21,7 +21,7 @@ public class GroupCmd extends LibraryCommand {
     @Override
     public void execute(LibraryData data) {
         List<BookEntry> books = data.getBookData();
-        Map<String, List<String>> groupMap = new HashMap<String, List<String>>(); // hashMap to manipulate the data
+        Map<String, List<String>> groupMap; // hashMap to manipulate the data
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
         switch(groupField) {
             case RemoveCmd.TITLE:
@@ -39,15 +39,15 @@ public class GroupCmd extends LibraryCommand {
 
     /**
      * This is to output the group HashMap based on the criteria laid down by the user
-     * @param groupArg is the hashmap which will be printed in the execute method
-     * @return gives the hashmap output as a string and is later printed
+     * @param groupArg is the HashMap which will be printed in the execute method
+     * @return gives the HashMap output as a string and is later printed
      */
     public String mapOutput(Map<String,List<String>> groupArg) {
-        StringBuilder output = new StringBuilder(); //  stringbuilder which will contain the output string
+        StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
         if (groupArg.size() == 0) {
-            output.append("The library has no book entries.");//  the case where the hashmap has no values
+            output.append("The library has no book entries.");//  the case where the HashMap has no values
        }
-       else {//  printing the particular hashmap
+       else {//  printing the particular HashMap
             output.append("Grouped data by ").append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                output.append("## ").append(arg.getKey()).append("\n");
@@ -73,7 +73,7 @@ public class GroupCmd extends LibraryCommand {
     /**
      * Grouping the titles of the book in a lexicographic way
      * @param books is the list of books which have to be sorted
-     * @return the hashmap with all the books sorted in that fashion
+     * @return the HashMap with all the books sorted in that fashion
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
         String numericTitle = "[0-9]"; // if not starting with letters
