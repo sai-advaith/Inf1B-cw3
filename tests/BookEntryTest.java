@@ -14,19 +14,24 @@ public abstract class BookEntryTest {
 
     protected static final String DEFAULT_TITLE = "Harry Potter";
     protected static final String ADVANCED_TITLE = "Odes to Common Things";
+
     protected static final String[] DEFAULT_AUTHORS = { "J.K. Rowling" };
     protected static final String[] ADVANCED_AUTHORS = {"J.K. Rowling", null};
     protected static final String[] ADVANCED_AUTHORS1 = {"Pablo Neruda-Ferris","Cook-Ken Krabbenhoft","Hello World"};
+    protected static final String[] ADVANCED_AUTHORS2 = {"Hello World","Pablo Neruda-Ferris","Cook-Ken Krabbenhoft"};
     protected static final float DEFAULT_RATING = 4.2f;
     protected static final float ADVANCED_RATING1 = (float) (1.0f / 0.0); // Infinity
     protected static final float ADVANCED_RATING2 = (float) (0.0f/0.0); // NaN
     protected static final float ADVANCED_RATING3 = 4.38f;
+
     protected static final String DEFAULT_ISBN = "074754624X";
     protected static final String ADVANCED_ISBN1 = null;
     protected static final String ADVANCED_ISBN2 = "821220802";
+
     protected static final int DEFAULT_PAGES = 521;
     protected static final int ADVANCED_PAGES1 = 2147483647;
     protected static final int ADVANCED_PAGES2 = 152;
+
     protected static final String DEFAULT_TOSTRING_RESULT = "Harry Potter\nby J.K. Rowling\nRating: 4.20\nISBN: 074754624X\n521 pages";
     protected static final String ADVANCED_TOSTRING_RESULT = "Odes to Common Things\nby Pablo Neruda-Ferris, Cook-Ken Krabbenhoft, Hello World\nRating: 4.38\nISBN: 821220802\n152 pages";
     protected static final Class<String> TITLE_FIELD_TYPE = String.class;

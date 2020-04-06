@@ -138,14 +138,10 @@ public class BookEntry {
             return false;
         }
         BookEntry bookEntry = (BookEntry) o; // type casting the object
-        String[] authorsCopyBookEntry = (Arrays.copyOf(bookEntry.authors,bookEntry.authors.length)); // not changing the original array
-        String[] authorsCopy = (Arrays.copyOf(authors,authors.length)); // not changing the original array
-        Arrays.sort(authorsCopyBookEntry); // sorting the array
-        Arrays.sort(authorsCopy); // sorting the array
         return Float.compare(bookEntry.rating, rating) == 0 &&
                 pages == bookEntry.pages &&
                 title.equals(bookEntry.title) &&
-                Arrays.equals(authorsCopyBookEntry,authorsCopy) &&
+                Arrays.equals(bookEntry.authors,authors) &&
                 ISBN.equals(bookEntry.ISBN);
     }
 

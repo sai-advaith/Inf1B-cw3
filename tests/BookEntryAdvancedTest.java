@@ -126,21 +126,21 @@ public class BookEntryAdvancedTest extends BookEntryTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        BookEntry bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-        BookEntry bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-
+        BookEntry bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+        BookEntry bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS2, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+// different ordering different books
         assertTrue("True return value expected for same book instance.", bookA.equals(bookA) && bookB.equals(bookB));
         assertEquals("Hashcode expected to be the same for same instance.", bookA.hashCode(), bookA.hashCode());
 
         assertFalse("False return value expected if compared to different object type.", bookA.equals("test"));
         assertFalse("False return value expected if compared to null.", bookA.equals(null));
 
-        checkEquality(bookA, bookB, TITLE_FIELD_NAME, true);
-
-        bookA = new BookEntry("Title A", DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-        bookB = new BookEntry("Title B", DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-
         checkEquality(bookA, bookB, TITLE_FIELD_NAME, false);
+
+        bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+        bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+
+        checkEquality(bookA, bookB, TITLE_FIELD_NAME, true);
 
         bookA = new BookEntry(DEFAULT_TITLE, new String[]{"Author A"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
         bookB = new BookEntry(DEFAULT_TITLE, new String[]{"Author B"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
@@ -152,20 +152,22 @@ public class BookEntryAdvancedTest extends BookEntryTest {
 
         checkEquality(bookA, bookB, AUTHORS_FIELD_NAME, false);
 
-        bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, 2f, DEFAULT_ISBN, DEFAULT_PAGES);
-        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, 3f, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, 3.0999999f, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, 3.1f, DEFAULT_ISBN, DEFAULT_PAGES); // approximation test
 
-        checkEquality(bookA, bookB, RATING_FIELD_NAME, false);
+        checkEquality(bookA, bookB, RATING_FIELD_NAME, true);
 
         bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, "1400054036", DEFAULT_PAGES);
-        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, "439554896", DEFAULT_PAGES);
+        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, "1400054036   ", DEFAULT_PAGES);
 
         checkEquality(bookA, bookB, ISBN_FIELD_NAME, false);
+        bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, "1400054036", DEFAULT_PAGES);
+        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, "1111111111", DEFAULT_PAGES);
 
-        bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, 300);
-        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, 400);
+        bookA = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, 1);
+        bookB = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, 1);
 
-        checkEquality(bookA, bookB, PAGES_FIELD_NAME, false);
+        checkEquality(bookA, bookB, PAGES_FIELD_NAME, true);
     }
 
     // ------------------------- check toString --------------------
