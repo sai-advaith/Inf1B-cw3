@@ -138,6 +138,7 @@ public class BookEntry {
             return false;
         }
         BookEntry bookEntry = (BookEntry) o; // type casting the object
+        Objects.requireNonNull(bookEntry);
         return Float.compare(bookEntry.rating, rating) == 0 &&
                 pages == bookEntry.pages &&
                 title.equals(bookEntry.title) &&
