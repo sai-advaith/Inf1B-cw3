@@ -11,10 +11,11 @@ public abstract class CommandTest {
 
     protected LibraryCommand testCommand;
     protected LibraryData testLibrary;
-
+    protected LibraryData testLibrary1;
     public CommandTest() {
         testCommand = null;
         testLibrary = null;
+        testLibrary1 = null;
     }
 
     protected abstract CommandType getCmdType();
