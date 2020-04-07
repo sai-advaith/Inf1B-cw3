@@ -5,7 +5,7 @@ import java.util.*;
 
 public class GroupCmd extends LibraryCommand {
     private String groupField; //  argument to store the user input
-
+    String numericTitle = "[0-9]";
     /**
      * Constructor of group Command to instantiate the parameters
      * @param groupField is the parameter of the constructor
@@ -44,17 +44,24 @@ public class GroupCmd extends LibraryCommand {
      */
     public String mapOutput(Map<String,List<String>> groupArg) {
         StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
+        StringBuilder out2 = new StringBuilder();
         if (groupArg.size() == 0) {
             output.append("The library has no book entries.");//  the case where the HashMap has no values
        }
-       else {//  printing the particular HashMap
+        else {//  printing the particular HashMap
             output.append("Grouped data by ").append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
-               output.append("## ").append(arg.getKey()).append("\n");
-               output.append(listToString(arg.getValue()));
+                if (!arg.getKey().equals(numericTitle)){
+                    output.append("## ").append(arg.getKey()).append("\n");
+                    output.append(listToString(arg.getValue()));
+                }
+                else {
+                    out2.append("## ").append(arg.getKey()).append("\n");
+                    out2.append(listToString(arg.getValue()));
+                }
            }
        }
-       return output.toString();
+        return output.append(out2).toString();
     }
 
     /**
@@ -76,7 +83,6 @@ public class GroupCmd extends LibraryCommand {
      * @return the HashMap with all the books sorted in that fashion
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
-        String numericTitle = "[0-9]"; // if not starting with letters
         Map<String, List<String>> titleMap = new HashMap<String, List<String>>();
         for (BookEntry book : books) {
             if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
