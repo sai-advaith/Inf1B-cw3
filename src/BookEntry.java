@@ -39,7 +39,7 @@ public class BookEntry {
             throw new IllegalArgumentException("There cannot be 0 authors");
         }
         else if (Arrays.asList(authors).contains(null)) {
-            throw new NullPointerException("No author cannot be null");
+            throw new NullPointerException("No author can be null");
         }
         else if(title.length() == 0) {
             throw new IllegalArgumentException("Title cannot be of length 0");
@@ -50,12 +50,10 @@ public class BookEntry {
         else if(Double.isNaN(rating) || Double.isInfinite(rating) || Double.isNaN(pages)) {
             throw new ArithmeticException("Illegal value");
         }
-        else if (rating <0.0) {
-            throw new IllegalArgumentException("Rating cannot negative");
+        else if (rating <0.0 || rating >5.0) {
+            throw new IllegalArgumentException("Invalid rating");
         }
-        else if (rating > 5.0) {
-            throw new IllegalArgumentException("Rating cannot be more than 5");
-        }
+
         else if (pages >= Integer.MAX_VALUE || pages <= Integer.MIN_VALUE) {
             throw new InputMismatchException("Invalid pages");
         }
@@ -138,7 +136,6 @@ public class BookEntry {
             return false;
         }
         BookEntry bookEntry = (BookEntry) o; // type casting the object
-        Objects.requireNonNull(bookEntry);
         return Float.compare(bookEntry.rating, rating) == 0 &&
                 pages == bookEntry.pages &&
                 title.equals(bookEntry.title) &&

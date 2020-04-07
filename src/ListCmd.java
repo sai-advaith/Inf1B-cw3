@@ -31,6 +31,7 @@ public class ListCmd extends LibraryCommand {
         List<BookEntry> listCmdBooks = data.getBookData();
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
+        String output=listOutput.toString();
         if (listCmdBooks.size() == 0) {
             listOutput.append("The library has no book entries.");
         }
@@ -41,6 +42,8 @@ public class ListCmd extends LibraryCommand {
                     BookEntry book = iterator.next();
                     listOutput.append(book.getTitle()).append('\n');
                 }
+                output = listOutput.toString().trim();
+                System.out.println(output);
             }
             else if (listField.equalsIgnoreCase(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
@@ -48,10 +51,10 @@ public class ListCmd extends LibraryCommand {
                     listOutput.append(book.toString());
                     listOutput.append("\n\n");
                 }
+                output = listOutput.toString();
+                System.out.print(output);
             }
         }
-
-        System.out.println(listOutput.toString().trim());
     }
 
     /**
