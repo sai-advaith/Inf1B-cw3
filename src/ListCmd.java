@@ -48,7 +48,7 @@ public class ListCmd extends LibraryCommand {
             else if (listField.equalsIgnoreCase(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
                     BookEntry book = iterator.next();
-                    listOutput.append(book.toString());
+                    listOutput.append(book);
                     listOutput.append("\n\n");
                 }
                 output = listOutput.toString();
