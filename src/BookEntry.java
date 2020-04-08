@@ -81,7 +81,7 @@ public class BookEntry {
      * @return the authors of the book
      */
     public String[] getAuthors() {
-        return this.authors;
+        return authors;
     }
 
     /**
@@ -89,7 +89,7 @@ public class BookEntry {
      * @return the rating of the book
      */
     public float getRating() {
-        return this.rating;
+        return rating;
     }
 
     /**
@@ -97,7 +97,7 @@ public class BookEntry {
      * @return the ISBN code of the book
      */
     public String getISBN() {
-        return this.ISBN;
+        return ISBN;
     }
 
 
@@ -106,7 +106,7 @@ public class BookEntry {
      * @return the pages of the book
      */
     public int getPages() {
-        return this.pages;
+        return pages;
     }
 
     /**

@@ -36,11 +36,8 @@ public class AddCmdAdvancedTest extends CommandTest {
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
         invalidPath = "hello.txt";
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
-        invalidPath = ".csv";
-        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
+
         invalidPath = "csv.py";
-        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
-        invalidPath = " .csv";
         CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
     }
     @Test(expected = NullPointerException.class)
@@ -57,6 +54,8 @@ public class AddCmdAdvancedTest extends CommandTest {
         validPath = "txt/csv/dat/py/hello.csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
         validPath = "books03.csv";
+        CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
+        validPath = ".csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
     }
 

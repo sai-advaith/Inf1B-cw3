@@ -96,12 +96,12 @@ public class RemoveCmd extends LibraryCommand {
     @Override
     protected boolean parseArguments(String removeInput) {
         Objects.requireNonNull(removeInput,"String cannot be null");
-        int firstSpace = removeInput.indexOf(WHITE_SPACE); //  Checking the first occurrence of whitespace
+        int firstSpace = removeInput.trim().indexOf(WHITE_SPACE); //  Checking the first occurrence of whitespace
         if (firstSpace != -1){
-            String removeType = getRemoveType(removeInput);
-            String removeArg = getRemoveArg(removeInput);
-            if ((removeType.equals(AUTHOR) || removeType.equals(TITLE)) && !(removeArg.isBlank())) {
-                removeField = removeInput;
+            String removeType = getRemoveType(removeInput.trim());
+            String removeArg = getRemoveArg(removeInput.trim());
+            if ((removeType.trim().equals(AUTHOR) || removeType.trim().equals(TITLE)) && !(removeArg.isBlank())) {
+                removeField = removeType.trim()+" "+removeArg.trim(); // adding the trimmed arguments
                 return true;
             }
             else {
