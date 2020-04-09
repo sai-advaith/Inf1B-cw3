@@ -29,6 +29,7 @@ public class RemoveCmd extends LibraryCommand {
      */
     @Override
     public void execute(LibraryData data) {
+        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> bookList = data.getBookData();
         StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
         switch (getRemoveType(removeField)) {

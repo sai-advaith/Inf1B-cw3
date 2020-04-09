@@ -18,7 +18,7 @@ public enum StdMsgs {
      * This is a parameterized constructor for the string as a std_msg
      * @param description is the std_msg
      */
-    private StdMsgs(String description) {
+    StdMsgs(String description) {
         this.description = description;
     }
 
