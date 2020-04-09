@@ -128,8 +128,8 @@ public class GroupCmd extends LibraryCommand {
     @Override
     protected boolean parseArguments(String groupInput) {
         Objects.requireNonNull(groupInput);
-        if (groupInput.trim().equals(RemoveCmd.AUTHOR) || groupInput.trim().equals(RemoveCmd.TITLE)) {
-            groupField = groupInput.trim();
+        if (groupInput.equals(RemoveCmd.AUTHOR) || groupInput.equals(RemoveCmd.TITLE)) {
+            groupField = groupInput;
             return true;
         }
         else {
