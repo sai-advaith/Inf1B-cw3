@@ -31,7 +31,7 @@ public class ListCmd extends LibraryCommand {
         List<BookEntry> listCmdBooks = data.getBookData();
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
-        String output=listOutput.toString();
+        String output;
         if (listCmdBooks.size() == 0) {
             listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());
         }

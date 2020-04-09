@@ -86,11 +86,22 @@ public class LibraryFileLoader {
         return data.split(",",0);
     }
     public BookEntry castData(String[] fileData) {
+        //TODO: Check if try-catch is valid
         String title = fileData[0];
-        String[] authors = fileData[1].split("-",0);
-        float rating = Float.parseFloat(fileData[2]);
         String ISBN = fileData[3];
-        int pages = Integer.parseInt(fileData[4]);
+        int pages = 0;
+        float rating = 0;
+        String[] authors = null;
+        try {
+            authors = fileData[1].split("-",0);
+            rating = Float.parseFloat(fileData[2]);
+            pages = Integer.parseInt(fileData[4]);
+
+        }
+        catch(NullPointerException | NumberFormatException e) {
+            System.err.println("ERROR: Invalid data in file");
+        }
+
         return new BookEntry(title,authors,rating,ISBN,pages);
     }
 }
