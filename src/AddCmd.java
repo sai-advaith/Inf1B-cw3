@@ -38,7 +38,7 @@ public class AddCmd extends LibraryCommand {
             int pathSeparatorIndex = fileNameParsed.indexOf(DOT);
             String extensionType = fileNameParsed.substring(pathSeparatorIndex);
             if (extensionType.equals(CSV_EXTENSION)) {
-                addField = addInput.trim();
+                addField = addInput;
                 return true;
             }
             else {
