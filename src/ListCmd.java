@@ -27,16 +27,16 @@ public class ListCmd extends LibraryCommand {
      */ 
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,"Cannot be null"); //  the data object cannot be null
+        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); //  the data object cannot be null
         List<BookEntry> listCmdBooks = data.getBookData();
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
         String output=listOutput.toString();
         if (listCmdBooks.size() == 0) {
-            listOutput.append("The library has no book entries.");
+            listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());
         }
         else {
-            listOutput.append(listCmdBooks.size()).append(" books in library:\n");
+            listOutput.append(listCmdBooks.size()).append(StdMsgs.BOOK_NUM_MSG.toString());
             if (listField.equalsIgnoreCase(SHORT) || listField.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
                     BookEntry book = iterator.next();
@@ -65,7 +65,7 @@ public class ListCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String listInput) {
-        Objects.requireNonNull(listInput,"Cannot be null");
+        Objects.requireNonNull(listInput,StdMsgs.STD_NULL_MSG.toString());
         if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
             listField = listInput;
             return true;

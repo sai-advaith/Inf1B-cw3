@@ -4,14 +4,13 @@ import java.util.Objects;
 public class AddCmd extends LibraryCommand {
     private String addField;
     public final String CSV_EXTENSION = ".csv";
-    public final String DOT = ".";
+    public final String EXTENSION_SEPARATOR = ".";
     /**
      * This is the constructor of the Add Command class calling the superclass constructor
      * @param addField is the field which contains the book file to be added
      */
     public AddCmd(String addField) {
         super(CommandType.ADD,addField);
-        Objects.requireNonNull(addField);
     }
     /**
      * This is a void method which is used to execute the loadData method from the Path object
@@ -29,13 +28,13 @@ public class AddCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String addInput) {
-        Objects.requireNonNull(addInput,"String type cannot be null");
+        Objects.requireNonNull(addInput,StdMsgs.STD_NULL_MSG.toString());
         String fileNameParsed = new File(addInput).getName(); // name of the file parsed
-        if (!fileNameParsed.contains(DOT)) {
+        if (!fileNameParsed.contains(EXTENSION_SEPARATOR)) {
             return false;
         }
         else {
-            int pathSeparatorIndex = fileNameParsed.indexOf(DOT);
+            int pathSeparatorIndex = fileNameParsed.indexOf(EXTENSION_SEPARATOR);
             String extensionType = fileNameParsed.substring(pathSeparatorIndex);
             if (extensionType.equals(CSV_EXTENSION)) {
                 addField = addInput;

@@ -17,7 +17,14 @@ public class BookEntry {
     private final String ISBN;
     /**This is an encapsulated integer for the number of pages in the book*/
     private final int pages;
-
+    /**Minimum book rating*/
+    public final float MIN_RATING = 0.0f;
+    /**Maximum book rating*/
+    public final float MAX_RATING = 5.0f;
+    /**Minimum number of pages*/
+    public final int MIN_PAGES = 0;
+    /**Minimum length of strings and string arrays*/
+    public final int MIN_LENGTH = 0;
     /**
      * This is a parameterised constructor to initialise the encapsulated the class variables
      * @param title is the title of the book and will hence be initialized to the encapsulated class variable title
@@ -31,36 +38,37 @@ public class BookEntry {
      * @throws InputMismatchException is thrown if the number of pages in the book is more than max value for integer
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
-        Objects.requireNonNull(title,"Title cannot be null");
-        Objects.requireNonNull(authors,"Authors cannot be null");
-        Objects.requireNonNull(ISBN,"ISBN cannot be null");
+        Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(authors,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(ISBN,StdMsgs.STD_NULL_MSG.toString());
 
-        if (authors.length == 0) {
-            throw new IllegalArgumentException("There cannot be 0 authors");
+        if (authors.length == MIN_LENGTH) {
+            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
         }
         else if (Arrays.asList(authors).contains(null)) {
-            throw new NullPointerException("No author can be null");
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
         }
-        else if(title.length() == 0) {
-            throw new IllegalArgumentException("Title cannot be of length 0");
+        else if(title.length() == MIN_LENGTH) {
+            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
         }
-        else if(ISBN.length() == 0) {
-            throw new IllegalArgumentException("ISBN length cannot be 0");
+        else if(ISBN.length() == MIN_LENGTH) {
+            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
         }
         else if(Double.isNaN(rating) || Double.isInfinite(rating) || Double.isNaN(pages)) {
-            throw new ArithmeticException("Illegal value");
+            throw new ArithmeticException(StdMsgs.OUT_OF_BOUND_MSG.toString());
         }
-        else if (rating <0.0 || rating >5.0) {
-            throw new IllegalArgumentException("Invalid rating");
+        else if (rating < MIN_RATING || rating > MAX_RATING) {
+            throw new IllegalArgumentException(StdMsgs.INVALID_RATING_MSG.toString());
         }
 
         else if (pages >= Integer.MAX_VALUE || pages <= Integer.MIN_VALUE) {
-            throw new InputMismatchException("Invalid pages");
+            throw new InputMismatchException(StdMsgs.OUT_OF_BOUND_MSG.toString());
         }
 
-        else if (pages < 0) {
-            throw new IllegalArgumentException("Pages cannot be negative");
+        else if (pages < MIN_PAGES) {
+            throw new IllegalArgumentException(StdMsgs.INVALID_PAGES_MSG.toString());
         }
+
         this.title = title;
         this.authors = authors;
         this.rating = rating;

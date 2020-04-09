@@ -5,7 +5,8 @@ import java.util.*;
 
 public class GroupCmd extends LibraryCommand {
     private String groupField; //  argument to store the user input
-    String numericTitle = "[0-9]";
+    private final String numericTitle = "[0-9]"; //  argument for the titles which begin with numbers
+    private final String groupListing = "## "; //  groups listing for the titles
     /**
      * Constructor of group Command to instantiate the parameters
      * @param groupField is the parameter of the constructor
@@ -46,17 +47,17 @@ public class GroupCmd extends LibraryCommand {
         StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
         StringBuilder out2 = new StringBuilder();
         if (groupArg.size() == 0) {
-            output.append("The library has no book entries.");//  the case where the HashMap has no values
+            output.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
        }
         else {//  printing the particular HashMap
-            output.append("Grouped data by ").append(groupField).append("\n");
+            output.append(StdMsgs.GROUP_TYPE_MSG.toString()).append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                 if (!arg.getKey().equals(numericTitle)){
-                    output.append("## ").append(arg.getKey()).append("\n");
+                    output.append(groupListing).append(arg.getKey()).append("\n");
                     output.append(listToString(arg.getValue()));
                 }
                 else {
-                    out2.append("## ").append(arg.getKey()).append("\n");
+                    out2.append(groupListing).append(arg.getKey()).append("\n");
                     out2.append(listToString(arg.getValue()));
                 }
            }
@@ -83,7 +84,7 @@ public class GroupCmd extends LibraryCommand {
      * @return the HashMap with all the books sorted in that fashion
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
-        Map<String, List<String>> titleMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> titleMap = new HashMap<>();
         for (BookEntry book : books) {
             if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
                 String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
@@ -127,7 +128,7 @@ public class GroupCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String groupInput) {
-        Objects.requireNonNull(groupInput);
+        Objects.requireNonNull(groupInput,StdMsgs.STD_NULL_MSG.toString());
         if (groupInput.equals(RemoveCmd.AUTHOR) || groupInput.equals(RemoveCmd.TITLE)) {
             groupField = groupInput;
             return true;

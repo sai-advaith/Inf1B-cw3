@@ -19,14 +19,14 @@ public class SearchCmd extends LibraryCommand {
      */
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,"Cannot be of null type");
+        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> booksList = data.getBookData();
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
             titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
         if (inString(titleList).size() == 0) {
-            System.out.println("No hits found for search term: "+searchField);//  the case where the length is zero
+            System.out.println(StdMsgs.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
         }
         else {
             List<String> matchCases = inString(titleList);
@@ -63,7 +63,7 @@ public class SearchCmd extends LibraryCommand {
      */
     @Override
     protected  boolean parseArguments(String searchInput) {
-        Objects.requireNonNull(searchInput,"Cannot be a null Object");
+        Objects.requireNonNull(searchInput,StdMsgs.STD_NULL_MSG.toString());
         if (!searchInput.isBlank()) {
             if (searchInput.trim().split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
                 searchField = searchInput.trim(); // assigning the trimmed instance to the field

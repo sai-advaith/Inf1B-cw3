@@ -35,15 +35,15 @@ public class RemoveCmd extends LibraryCommand {
             case AUTHOR:
                 String author = getRemoveArg(removeField); //  the author of the book to be removed
                 int removedBooks = authorRemoval(bookList,author);
-                removalOutput.append(removedBooks).append(" books removed for author: ").append(author); //implemented
+                removalOutput.append(removedBooks).append(StdMsgs.AUTHOR_REMOVE_MSG.toString()).append(author); //implemented
                 break;
             case TITLE:
                 String title = getRemoveArg(removeField); // the title of the book to be removed
                 if (titleRemoval(bookList,title)) {
-                    removalOutput.append(title).append(": removed successfully."); // removing successfully
+                    removalOutput.append(title).append(StdMsgs.REMOVE_SUCCESS_MSG.toString()); // removing successfully
                 }
                 else {
-                    removalOutput.append(title).append(": not found.");
+                    removalOutput.append(title).append(StdMsgs.TITLE_NOT_FOUND_MSG.toString());
                 }
                 break;
         }
@@ -95,7 +95,7 @@ public class RemoveCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String removeInput) {
-        Objects.requireNonNull(removeInput,"String cannot be null");
+        Objects.requireNonNull(removeInput,StdMsgs.STD_NULL_MSG.toString());
         int firstSpace = removeInput.indexOf(WHITE_SPACE); //  Checking the first occurrence of whitespace
         if (firstSpace != -1){
             String removeType = getRemoveType(removeInput);
