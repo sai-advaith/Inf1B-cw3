@@ -65,8 +65,8 @@ public class SearchCmd extends LibraryCommand {
     protected  boolean parseArguments(String searchInput) {
         Objects.requireNonNull(searchInput,StdMsgs.STD_NULL_MSG.toString());
         if (!searchInput.isBlank()) {
-            if (searchInput.trim().split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
-                searchField = searchInput.trim(); // assigning the trimmed instance to the field
+            if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
+                searchField = searchInput; // assigning the trimmed instance to the field
                 return true;//  This is to check if the length of the array is zero.
             }
         }
