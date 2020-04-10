@@ -83,10 +83,11 @@ public class LibraryFileLoader {
         return bookEntryFileContent;
     }
     public String[] dataParser(String data) {
+        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); // making sure the object is not null
         return data.split(",",0);
     }
     public BookEntry castData(String[] fileData) {
-        //TODO: Check if try-catch is valid
+        Objects.requireNonNull(fileData,StdMsgs.STD_NULL_MSG.toString());
         String title = fileData[0];
         String ISBN = fileData[3];
         int pages = 0;
