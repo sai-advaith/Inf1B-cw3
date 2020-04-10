@@ -35,21 +35,34 @@ public class ListCmd extends LibraryCommand {
         if (listCmdBooks.size() == 0) {
             listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());
         }
+
         else {
             listOutput.append(listCmdBooks.size()).append(StdMsgs.BOOK_NUM_MSG.toString());
-            if (listField.equalsIgnoreCase(SHORT) || listField.isBlank()) {
+
+            if (listField.equals(SHORT) || listField.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
-                    BookEntry book = iterator.next();
-                    listOutput.append(book.getTitle()).append('\n');
+                    try {
+                        BookEntry book = iterator.next();
+                        listOutput.append(book.getTitle()).append('\n');
+                    }
+                    catch (NullPointerException e) {
+                        System.err.println(StdMsgs.STD_NULL_MSG.toString());
+                    }
                 }
                 output = listOutput.toString().trim();
                 System.out.println(output);
             }
-            else if (listField.equalsIgnoreCase(LONG)) {
+
+            else if (listField.equals(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
-                    BookEntry book = iterator.next();
-                    listOutput.append(book);
-                    listOutput.append("\n\n");
+                    try {
+                        BookEntry book = iterator.next();
+                        listOutput.append(book.toString());
+                        listOutput.append("\n\n");
+                    }
+                    catch (NullPointerException e) {
+                        System.err.println(StdMsgs.STD_NULL_MSG.toString());
+                    }
                 }
                 output = listOutput.toString();
                 System.out.print(output);

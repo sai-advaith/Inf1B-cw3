@@ -62,9 +62,14 @@ public class RemoveCmd extends LibraryCommand {
         Iterator<BookEntry> bookIter = books.iterator(); // declaring iterator
         while (bookIter.hasNext()) {
             BookEntry book = bookIter.next();
-            List<String> bookAuthors = Arrays.asList(book.getAuthors());
-            if (bookAuthors.contains(author)) {
-                bookIter.remove(); // removing the book
+            try {
+                List<String> bookAuthors = Arrays.asList(book.getAuthors());
+                if (bookAuthors.contains(author)) {
+                    bookIter.remove(); // removing the book
+                }
+            }
+            catch (NullPointerException e) {
+                System.err.println(StdMsgs.STD_NULL_MSG.toString());
             }
         }
         return previous - books.size(); //  comparing previous size and size after removal
@@ -81,9 +86,14 @@ public class RemoveCmd extends LibraryCommand {
         Iterator<BookEntry> bookIter = books.iterator();
         while(bookIter.hasNext()) {
             BookEntry book = bookIter.next();
-            if (book.getTitle().equals(title)) {
-                removalSuccess = true;
-                bookIter.remove(); //  removing
+            try {
+                if (book.getTitle().equals(title)) {
+                    removalSuccess = true;
+                    bookIter.remove(); //  removing
+                }
+            }
+            catch (NullPointerException e) {
+                System.err.println(StdMsgs.STD_NULL_MSG.toString()); // if there is a null object in the list
             }
         }
         return removalSuccess;

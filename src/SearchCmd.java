@@ -23,7 +23,12 @@ public class SearchCmd extends LibraryCommand {
         List<BookEntry> booksList = data.getBookData();
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
-            titleList.add(book.getTitle()); //  storing the title of every book in a list
+            try {
+                titleList.add(book.getTitle()); //  storing the title of every book in a list
+            }
+            catch (NullPointerException e) {
+                System.err.println(StdMsgs.STD_NULL_MSG.toString());
+            }
         }
         if (inString(titleList).size() == 0) {
             System.out.println(StdMsgs.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero

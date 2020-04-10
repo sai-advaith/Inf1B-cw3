@@ -100,12 +100,17 @@ public class GroupCmd extends LibraryCommand {
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
         Map<String, List<String>> titleMap = new HashMap<>();
         for (BookEntry book : books) {
-            if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
-                String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
-                titleMap = dataAdd(titleMap,titleCategory,book.getTitle());
+            try {
+                if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
+                    String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
+                    titleMap = dataAdd(titleMap,titleCategory,book.getTitle());
+                }
+                else {
+                    titleMap = dataAdd(titleMap,numericTitle,book.getTitle());
+                }
             }
-            else {
-                titleMap = dataAdd(titleMap,numericTitle,book.getTitle());
+            catch (NullPointerException e) {
+                System.err.println(StdMsgs.STD_NULL_MSG.toString());
             }
         }
         return titleMap;
@@ -133,9 +138,15 @@ public class GroupCmd extends LibraryCommand {
     public Map<String,List<String>> authorGroup(List<BookEntry> books) {
         Map<String,List<String>> authorMap = new HashMap<>();
         for (BookEntry book : books) {
-            for (String author : book.getAuthors()) {//placing the books based on the existence of the authors in the map
-                authorMap = dataAdd(authorMap,author,book.getTitle());
+            try {
+                for (String author : book.getAuthors()) {//placing the books based on the existence of the authors in the map
+                    authorMap = dataAdd(authorMap,author,book.getTitle());
+                }
             }
+            catch (NullPointerException e) {
+                System.err.println(StdMsgs.STD_NULL_MSG.toString());
+            }
+
         }
         return authorMap;
     }
