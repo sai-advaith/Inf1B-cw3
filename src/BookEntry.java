@@ -23,8 +23,6 @@ public class BookEntry {
     public final float MAX_RATING = 5.0f;
     /**Minimum number of pages*/
     public final int MIN_PAGES = 0;
-    /**Minimum length of strings and string arrays*/
-    public final int MIN_LENGTH = 0;
     /**
      * This is a parameterised constructor to initialise the encapsulated the class variables
      * @param title is the title of the book and will hence be initialized to the encapsulated class variable title
@@ -42,17 +40,8 @@ public class BookEntry {
         Objects.requireNonNull(authors,StdMsgs.STD_NULL_MSG.toString());
         Objects.requireNonNull(ISBN,StdMsgs.STD_NULL_MSG.toString());
 
-        if (authors.length == MIN_LENGTH) {
-            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
-        }
-        else if (Arrays.asList(authors).contains(null)) {
+        if (Arrays.asList(authors).contains(null)) {
             throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
-        }
-        else if(title.length() == MIN_LENGTH) {
-            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
-        }
-        else if(ISBN.length() == MIN_LENGTH) {
-            throw new IllegalArgumentException(StdMsgs.ZERO_LENGTH_MSG.toString());
         }
         else if(Double.isNaN(rating) || Double.isInfinite(rating) || Double.isNaN(pages)) {
             throw new ArithmeticException(StdMsgs.OUT_OF_BOUND_MSG.toString());

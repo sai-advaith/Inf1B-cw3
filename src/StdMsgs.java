@@ -7,7 +7,6 @@ public enum StdMsgs {
     BOOK_NUM_MSG(" books in library:\n"),
     AUTHOR_REMOVE_MSG(" books removed for author: "),
     REMOVE_SUCCESS_MSG(": removed successfully."),
-    ZERO_LENGTH_MSG("Cannot be of zero length"),
     INVALID_RATING_MSG("Invalid rating"),
     INVALID_PAGES_MSG("Invalid Pages"),
     OUT_OF_BOUND_MSG("Value out of bound"),
