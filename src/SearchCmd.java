@@ -16,19 +16,18 @@ public class SearchCmd extends LibraryCommand {
      * This is an overriding function of the same function LibraryCommand and hence is used to execute the SearchCmd option
      * @param data book data to be considered for command execution.
      * This prints the titleList of the titles which occur in the list
+     * @throws NullPointerException if the BookEntry list contains a null reference.
      */
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> booksList = data.getBookData();
+        if (booksList.contains(null)) {
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // checking if the bookEntry list has a null reference
+        }
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
-            try {
                 titleList.add(book.getTitle()); //  storing the title of every book in a list
-            }
-            catch (NullPointerException e) {
-                System.err.println(StdMsgs.STD_NULL_MSG.toString());
-            }
         }
         if (inString(titleList).size() == 0) {
             System.out.println(StdMsgs.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero

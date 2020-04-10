@@ -24,11 +24,15 @@ public class ListCmd extends LibraryCommand {
      * This method executes the List Command of the code. 
      * @param data book data to be considered for command execution.
      * The Titles or the books are printed as per the necessity of the user as stated in the List command
+     * @throws NullPointerException if the BookEntry list contains a null reference
      */ 
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); //  the data object cannot be null
         List<BookEntry> listCmdBooks = data.getBookData();
+        if (listCmdBooks.contains(null)) {
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
+        }
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
         String output;
@@ -41,13 +45,8 @@ public class ListCmd extends LibraryCommand {
 
             if (listField.equals(SHORT) || listField.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
-                    try {
                         BookEntry book = iterator.next();
                         listOutput.append(book.getTitle()).append('\n');
-                    }
-                    catch (NullPointerException e) {
-                        System.err.println(StdMsgs.STD_NULL_MSG.toString());
-                    }
                 }
                 output = listOutput.toString().trim();
                 System.out.println(output);
@@ -55,14 +54,9 @@ public class ListCmd extends LibraryCommand {
 
             else if (listField.equals(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
-                    try {
                         BookEntry book = iterator.next();
                         listOutput.append(book.toString());
                         listOutput.append("\n\n");
-                    }
-                    catch (NullPointerException e) {
-                        System.err.println(StdMsgs.STD_NULL_MSG.toString());
-                    }
                 }
                 output = listOutput.toString();
                 System.out.print(output);

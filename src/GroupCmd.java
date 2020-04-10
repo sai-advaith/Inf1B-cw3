@@ -19,11 +19,15 @@ public class GroupCmd extends LibraryCommand {
     /**
      * This is the overriding execute method which prints the books in a group based on user request
      * @param data is the LibraryData object which is used to access the book data
+     * @throws NullPointerException if the BookEntry list contains a null reference
      */
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> books = data.getBookData();
+        if (books.contains(null)) {
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
+        }
         Map<String, List<String>> groupMap; // hashMap to manipulate the data
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
         switch(groupField) {
@@ -100,7 +104,7 @@ public class GroupCmd extends LibraryCommand {
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
         Map<String, List<String>> titleMap = new HashMap<>();
         for (BookEntry book : books) {
-            try {
+
                 if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
                     String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
                     titleMap = dataAdd(titleMap,titleCategory,book.getTitle());
@@ -108,10 +112,6 @@ public class GroupCmd extends LibraryCommand {
                 else {
                     titleMap = dataAdd(titleMap,numericTitle,book.getTitle());
                 }
-            }
-            catch (NullPointerException e) {
-                System.err.println(StdMsgs.STD_NULL_MSG.toString());
-            }
         }
         return titleMap;
     }
@@ -138,15 +138,10 @@ public class GroupCmd extends LibraryCommand {
     public Map<String,List<String>> authorGroup(List<BookEntry> books) {
         Map<String,List<String>> authorMap = new HashMap<>();
         for (BookEntry book : books) {
-            try {
+
                 for (String author : book.getAuthors()) {//placing the books based on the existence of the authors in the map
                     authorMap = dataAdd(authorMap,author,book.getTitle());
                 }
-            }
-            catch (NullPointerException e) {
-                System.err.println(StdMsgs.STD_NULL_MSG.toString());
-            }
-
         }
         return authorMap;
     }

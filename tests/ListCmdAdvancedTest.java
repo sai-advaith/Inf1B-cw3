@@ -17,9 +17,8 @@ public class ListCmdAdvancedTest extends ListCmdTest {
         FieldTestUtils.setPrivateField(testLibrary,testLibrary.getClass(),"books",data);
         testLibrary1 = new LibraryData();
         List<BookEntry> bookData = new ArrayList<>();
-        bookData.add(null); // there should be no duplications though!
+        bookData.add(new BookEntry("Title A", new String[]{"Author A, Author B, Author C"}, 3.200f, "10101010100", 500)); // there should be no duplications though!
         bookData.add(new BookEntry("Title A", new String[]{"Author A, Author B, Author C"}, 3.200f, "10101010100", 500));
-        System.out.println(bookData);
         FieldTestUtils.setPrivateField(testLibrary1,testLibrary1.getClass(),"books",bookData);
     }
     @Test(expected = NullPointerException.class)

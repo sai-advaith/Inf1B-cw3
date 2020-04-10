@@ -26,11 +26,15 @@ public class RemoveCmd extends LibraryCommand {
      * This an overriding method is to execute the removeCmd for the library class, where several cases are taken into consideration
      * If author to be removed then respective output is given, if book then respective is given in that case too.
      * @param data book data to be considered for command execution.
+     * @throws NullPointerException if the data contains a null object
      */
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> bookList = data.getBookData();
+        if (bookList.contains(null)) {
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // handling the case when the list contains null
+        }
         StringBuilder removalOutput = new StringBuilder(); // creating a string builder which will be printed
         switch (getRemoveType(removeField)) {
             case AUTHOR:
@@ -62,15 +66,11 @@ public class RemoveCmd extends LibraryCommand {
         Iterator<BookEntry> bookIter = books.iterator(); // declaring iterator
         while (bookIter.hasNext()) {
             BookEntry book = bookIter.next();
-            try {
+
                 List<String> bookAuthors = Arrays.asList(book.getAuthors());
                 if (bookAuthors.contains(author)) {
                     bookIter.remove(); // removing the book
                 }
-            }
-            catch (NullPointerException e) {
-                System.err.println(StdMsgs.STD_NULL_MSG.toString());
-            }
         }
         return previous - books.size(); //  comparing previous size and size after removal
     }
@@ -86,15 +86,10 @@ public class RemoveCmd extends LibraryCommand {
         Iterator<BookEntry> bookIter = books.iterator();
         while(bookIter.hasNext()) {
             BookEntry book = bookIter.next();
-            try {
                 if (book.getTitle().equals(title)) {
                     removalSuccess = true;
                     bookIter.remove(); //  removing
                 }
-            }
-            catch (NullPointerException e) {
-                System.err.println(StdMsgs.STD_NULL_MSG.toString()); // if there is a null object in the list
-            }
         }
         return removalSuccess;
     }
