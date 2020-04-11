@@ -91,7 +91,7 @@ public class RemoveCmd extends LibraryCommand {
     public int authorRemoval(List<BookEntry> books, String author) {
         Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString());
         Objects.requireNonNull(author,StdMsgs.STD_NULL_MSG.toString());
-        int previous = books.size(); // storing size before removal
+        int removedBooks = 0; // counting the books removed
         Iterator<BookEntry> bookIter = books.iterator(); // declaring iterator
         while (bookIter.hasNext()) {
             BookEntry book = bookIter.next();
@@ -99,9 +99,10 @@ public class RemoveCmd extends LibraryCommand {
                 List<String> bookAuthors = Arrays.asList(book.getAuthors());
                 if (bookAuthors.contains(author)) {
                     bookIter.remove(); // removing the book
+                    removedBooks++;
                 }
         }
-        return previous - books.size(); //  comparing previous size and size after removal
+        return removedBooks; //  returning the removed books
     }
 
     /**

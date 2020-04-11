@@ -33,31 +33,25 @@ public class BookEntry {
      * @throws IllegalArgumentException is thrown if any of the parameters of the constructor are not valid and hence need to be handled
      * @throws NullPointerException is thrown is any of the objects being passed into the constructor are null
      * @throws ArithmeticException is thrown if the rating is positive or negative infinity or NaN.
-     * @throws InputMismatchException is thrown if the number of pages in the book is more than max value for integer
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
         Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString());
         Objects.requireNonNull(authors,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(ISBN,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(ISBN,StdMsgs.STD_NULL_MSG.toString()); // checking for null in the parameters
 
         if (Arrays.asList(authors).contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // making sure the list does not contain null
         }
-        else if(Double.isNaN(rating) || Double.isInfinite(rating) || Double.isNaN(pages)) {
-            throw new ArithmeticException(StdMsgs.OUT_OF_BOUND_MSG.toString());
+        else if(Float.isNaN(rating) || Float.isInfinite(rating) || Float.isNaN(pages)) {
+            throw new ArithmeticException(StdMsgs.OUT_OF_BOUND_MSG.toString()); // ensuring the primitives are not infinite or NaN
         }
         else if (rating < MIN_RATING || rating > MAX_RATING) {
-            throw new IllegalArgumentException(StdMsgs.INVALID_RATING_MSG.toString());
+            throw new IllegalArgumentException(StdMsgs.INVALID_RATING_MSG.toString()); // ratings check
         }
-
-        else if (pages >= Integer.MAX_VALUE || pages <= Integer.MIN_VALUE) {
-            throw new InputMismatchException(StdMsgs.OUT_OF_BOUND_MSG.toString());
-        }
-
         else if (pages < MIN_PAGES) {
-            throw new IllegalArgumentException(StdMsgs.INVALID_PAGES_MSG.toString());
+            throw new IllegalArgumentException(StdMsgs.INVALID_PAGES_MSG.toString()); // pages check
         }
-
+        // assigning once all possible errors are checked for
         this.title = title;
         this.authors = authors;
         this.rating = rating;
@@ -112,8 +106,9 @@ public class BookEntry {
      */
     @Override
     public String toString() {
+        String authorStr = Arrays.toString(authors); // string equivalent of the array
         return  title + '\n' +
-                "by " + Arrays.toString(authors).substring(1,Arrays.toString(authors).length()-1) + '\n' +
+                "by " + authorStr.substring(1,authorStr.length()-1) + '\n' + // taking everything apart opening and closing braces
                 "Rating: " + String.format(Locale.US,"%.02f",rating) + '\n' +
                 "ISBN: " + ISBN + '\n' +
                 pages + " pages";
@@ -121,23 +116,23 @@ public class BookEntry {
 
     /**
      * This is the overriding equals() method to check if two books have the same fields
-     * @param o is of type Object and is comparing all instance fields with the parameter 'o'
+     * @param obj is of type Object and is comparing all instance fields with the parameter 'o'
      * @return a boolean if the two books are the same
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) { // checking whether obj is null and of same class
             return false;
         }
-        BookEntry bookEntry = (BookEntry) o; // type casting the object
+        BookEntry bookEntry = (BookEntry) obj; // type casting the object
         return Float.compare(bookEntry.rating, rating) == 0 &&
                 pages == bookEntry.pages &&
                 title.equals(bookEntry.title) &&
                 Arrays.equals(bookEntry.authors,authors) &&
-                ISBN.equals(bookEntry.ISBN);
+                ISBN.equals(bookEntry.ISBN); // checking for parameters equality
     }
 
     /**
@@ -146,8 +141,8 @@ public class BookEntry {
      */
     @Override
     public int hashCode() {
-        int result = Objects.hash(title, rating, ISBN, pages);
-        result = 31 * result + Arrays.hashCode(authors);
+        int result = Objects.hash(title, rating, ISBN, pages); // hashcode of other variables
+        result = 31 * result + Arrays.hashCode(authors); // hashcode of the array
         return result;
     }
 }

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,12 @@ public class LibraryFileLoader {
      * end of each line.
      */
     private List<String> fileContent;
+
+    /**Separator for values in csv files*/
+    private final String COMMA_SEPARATOR = ",";
+    /**Separator for authors in the csv files*/
+    private final String AUTHOR_SEPARATOR = "-";    // private since used only in this class
+
 
     /** Create a new loader. No file content has been loaded yet. */
     public LibraryFileLoader() { 
@@ -69,23 +76,23 @@ public class LibraryFileLoader {
      * if no book data has been loaded yet.
      */
     public List<BookEntry> parseFileContent() {
-        if (contentLoaded()) {
-            List<BookEntry> bookEntryFileContent = new ArrayList<>();
+        List<BookEntry> bookEntryFileContent = new ArrayList<>(); // BookEntry list
+        if (contentLoaded()) { // if not null, add data to the list
             for (int i = 1; i <fileContent.size();i++) {
                 try {
                     BookEntry book = castData(fileContent.get(i));
-                    bookEntryFileContent.add(book);
+                    bookEntryFileContent.add(book); // adding the data to the book if no issues with
                 }
                 catch (NullPointerException | NumberFormatException e) { // expected exceptions from castData
                     System.err.println("ERROR: Parsing book data failed: "+e);
                 }
             }
-            return bookEntryFileContent;
         }
+
         else {
-            System.err.println("ERROR: No content loaded before parsing.");
-            return null;
+            System.err.println("ERROR: No content loaded before parsing."); // error message for null list
         }
+        return bookEntryFileContent; // returning empty list
     }
 
     /**
@@ -96,13 +103,15 @@ public class LibraryFileLoader {
     public BookEntry castData(String fileData) {
         Objects.requireNonNull(fileData,StdMsgs.STD_NULL_MSG.toString());
 
-        String[] parsedData = fileData.split(",",0); //splitting by comma
-        String title = parsedData[0];
-        String ISBN = parsedData[3];
-        String[] authors = parsedData[1].split("-",0);
-        float rating = Float.parseFloat(parsedData[2]);
-        int pages = Integer.parseInt(parsedData[4]);
+        String[] parsedData = fileData.split(COMMA_SEPARATOR,0); //splitting by comma
 
-        return new BookEntry(title,authors,rating,ISBN,pages);
+        String title = parsedData[0];
+        String[] authors = parsedData[1].split(AUTHOR_SEPARATOR,0); // splitting by hyphen
+        float rating = Float.parseFloat(parsedData[2]); // casting the data
+        String ISBN = parsedData[3];
+        int pages = Integer.parseInt(parsedData[4]);
+        // if errors in casting, they are handled in the parseFileContent method
+
+        return new BookEntry(title,authors,rating,ISBN,pages); // returning book entry
     }
 }

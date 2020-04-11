@@ -35,10 +35,6 @@ public class BookEntryAdvancedTest extends BookEntryTest {
     public void invalidRating2() {
         testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,ADVANCED_RATING2,DEFAULT_ISBN,DEFAULT_PAGES);
     }
-    @Test(expected = InputMismatchException.class)
-    public void invalidPages1() {
-        testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,DEFAULT_RATING,DEFAULT_ISBN,ADVANCED_PAGES1);
-    }
     @Test(expected = NullPointerException.class)
     public void invalidISBN() {
         testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,DEFAULT_RATING,ADVANCED_ISBN1,DEFAULT_PAGES);

@@ -7,16 +7,16 @@ public class ListCmd extends LibraryCommand {
     private String listField;
 
     /**String for long listing*/
-    public final String LONG = "long";
+    private final String LONG = "long";
     /**String 1 for short listing*/
-    public final String SHORT = "short";
+    private final String SHORT = "short"; // Since used in this class only, private visibility
 
     /**
      * Parameterized constructor to call the super class constructor
      * @param listField this is the constructor argument and is initialized to the list argument by default
      */
     public ListCmd(String listField) {
-        super(CommandType.LIST,listField);
+        super(CommandType.LIST,listField); // calling the baseclass constructor
     }
 
     /**
@@ -29,7 +29,7 @@ public class ListCmd extends LibraryCommand {
     protected boolean parseArguments(String listInput) {
         Objects.requireNonNull(listInput,StdMsgs.STD_NULL_MSG.toString());
         if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
-            listField = listInput;
+            listField = listInput; // if blank, short, or long the input is valid
             return true;
         }
         else {
@@ -51,37 +51,36 @@ public class ListCmd extends LibraryCommand {
         Objects.requireNonNull(listCmdBooks,StdMsgs.STD_NULL_MSG.toString()); //  the list of books cannot be null
 
         if (listCmdBooks.contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // cannot contain null
         }
 
-        Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
+        Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator for both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
-        String output;
 
-        if (listCmdBooks.size() == 0) {
-            listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());
+        if (listCmdBooks.isEmpty()) {
+            listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString()); // output for empty list
         }
 
         else {
-            listOutput.append(listCmdBooks.size()).append(StdMsgs.BOOK_NUM_MSG.toString());
+            String output; // output of short data
+            listOutput.append(listCmdBooks.size()).append(StdMsgs.BOOK_NUM_MSG.toString()); // header of output
 
-            if (listField.equals(SHORT) || listField.isBlank()) {
+            if (listField.equals(SHORT) || listField.isBlank()) { // if blank or short
                 while (iterator.hasNext()) { //  Short printing
                         BookEntry book = iterator.next();
                         listOutput.append(book.getTitle()).append('\n');
                 }
-                output = listOutput.toString().trim();
+                output = listOutput.toString().trim(); // trimming the line break appearing in the last line
                 System.out.println(output);
             }
 
-            else if (listField.equals(LONG)) {
+            else if (listField.equals(LONG)) { // long
                 while (iterator.hasNext()){ //  Long printing
                         BookEntry book = iterator.next();
-                        listOutput.append(book.toString());
-                        listOutput.append("\n\n");
+                        listOutput.append(book);
+                        listOutput.append("\n\n");// since there is new line after every output
                 }
-                output = listOutput.toString();
-                System.out.print(output);
+                System.out.print(listOutput); // print to avoid extra linebreaks
             }
         }
     }

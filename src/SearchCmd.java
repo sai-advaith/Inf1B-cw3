@@ -8,7 +8,7 @@ public class SearchCmd extends LibraryCommand {
      * @param searchField is the word to be searched
      */
     public SearchCmd(String searchField) {
-        super(CommandType.SEARCH,searchField);
+        super(CommandType.SEARCH,searchField); // calling the baseclass constructor
     }
 
     /**
@@ -40,10 +40,10 @@ public class SearchCmd extends LibraryCommand {
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> booksList = data.getBookData();
-        Objects.requireNonNull(booksList,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(booksList,StdMsgs.STD_NULL_MSG.toString()); // making sure the list is not null
 
         if (booksList.contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // checking if the bookEntry list has a null reference
+            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // should not contain null
         }
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
@@ -70,15 +70,14 @@ public class SearchCmd extends LibraryCommand {
         Objects.requireNonNull(bookTitles,StdMsgs.STD_NULL_MSG.toString());
         List<String> matchCase = new ArrayList<>();
         //  returning the the match cases
-        if (bookTitles.size() != 0) {
+        if (!bookTitles.isEmpty()) { // loop only if not empty
             for (String title : bookTitles) {
                 if (title.toLowerCase().contains(searchField.toLowerCase())) {
-                    matchCase.add(title);
+                    matchCase.add(title); // all match-cases in a list
                 }
             }
         }
         return matchCase;
-
     }
 
 

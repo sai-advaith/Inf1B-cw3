@@ -13,7 +13,7 @@ public class GroupCmd extends LibraryCommand {
      * @param groupField is the parameter of the constructor
      */
     public GroupCmd(String groupField) {
-        super(CommandType.GROUP,groupField);
+        super(CommandType.GROUP,groupField); // calling the baseclass constructor
     }
     /**
      * Overriding method to make sure the arguments being given are as per the requirement of the user
@@ -24,7 +24,7 @@ public class GroupCmd extends LibraryCommand {
     protected boolean parseArguments(String groupInput) {
         Objects.requireNonNull(groupInput,StdMsgs.STD_NULL_MSG.toString());
         if (groupInput.equals(RemoveCmd.AUTHOR) || groupInput.equals(RemoveCmd.TITLE)) {
-            groupField = groupInput;
+            groupField = groupInput; // checking if the parameter with group is AUTHOR or TITLE. Nothing else
             return true;
         }
         else {
@@ -39,9 +39,10 @@ public class GroupCmd extends LibraryCommand {
      */
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); // making sure the data object is not null
+
         List<BookEntry> books = data.getBookData();
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // list should not be null and should not contain null
         if (books.contains(null)) {
             throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
         }
@@ -49,13 +50,13 @@ public class GroupCmd extends LibraryCommand {
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
         switch(groupField) {
             case RemoveCmd.TITLE:
-                groupMap = titleGroup(books);
+                groupMap = titleGroup(books); // grouping titles
                 sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
                 System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
                 break;
 
             case RemoveCmd.AUTHOR:
-                groupMap = authorGroup(books);
+                groupMap = authorGroup(books); // grouping authors
                 sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
                 System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
                 break;
@@ -72,7 +73,7 @@ public class GroupCmd extends LibraryCommand {
         Objects.requireNonNull(groupArg,StdMsgs.STD_NULL_MSG.toString());
         StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
         StringBuilder numericOutput = new StringBuilder(); // Solving the issue with numbers appearing after the list
-
+        // in author this does not matter, for title it does
         String groupPrefix = "## ";
         if (groupArg.size() == 0) {
             output.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
@@ -82,15 +83,15 @@ public class GroupCmd extends LibraryCommand {
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                 if (!arg.getKey().equals(numericTitle)){
                     output.append(groupPrefix);
-                    output = customAppend(output,arg.getKey(),arg.getValue());
+                    output = groupAppend(output,arg.getKey(),arg.getValue());
                 } // this difference makes sure that books with number titles come after all alphabets
                 else {
                     numericOutput.append(groupPrefix);
-                    numericOutput = customAppend(numericOutput,numericTitle,arg.getValue());
+                    numericOutput = groupAppend(numericOutput,numericTitle,arg.getValue());
                 }
            }
        }
-        return output.append(numericOutput).toString();
+        return output.append(numericOutput).toString(); // appending numeric after alphabets based on output in papers
     }
 
     /**
@@ -101,12 +102,12 @@ public class GroupCmd extends LibraryCommand {
      * @return the StringBuilder output which is later updated
      * @throws NullPointerException if any of the function parameters are null
      */
-    public StringBuilder customAppend(StringBuilder output, String key,List<String> values) {
+    public StringBuilder groupAppend(StringBuilder output, String key,List<String> values) {
         Objects.requireNonNull(output,StdMsgs.STD_NULL_MSG.toString());
         Objects.requireNonNull(key,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(values,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(values,StdMsgs.STD_NULL_MSG.toString()); // error handling
 
-        output.append(key).append("\n").append(listToString(values));
+        output.append(key).append("\n").append(listToString(values)); // appending based on the format
         return output;
     }
     /**
@@ -116,11 +117,11 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of the parameters are null
      */
     public String listToString(List<String> listValues) {
-        Objects.requireNonNull(listValues,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(listValues,StdMsgs.STD_NULL_MSG.toString()); // error handling
 
         StringBuilder listConverter = new StringBuilder();
         for (String listValue : listValues) {
-            listConverter.append("\t").append(listValue).append("\n");
+            listConverter.append("\t").append(listValue).append("\n"); // converting the list to a string based on the format
         }
         return listConverter.toString();
     }
@@ -132,18 +133,18 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of function parameters are null
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // error handling
 
-        Map<String, List<String>> titleMap = new HashMap<>();
+        Map<String, List<String>> titleMap = new HashMap<>(); // Map for all titles
         for (BookEntry book : books) {
 
                 if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
                     String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
-                    titleMap = dataAdd(titleMap,titleCategory,book.getTitle());
+                    titleMap = dataAdd(titleMap,titleCategory,book.getTitle()); // non numeric titles
                 }
                 else {
-                    titleMap = dataAdd(titleMap,numericTitle,book.getTitle());
-                }
+                    titleMap = dataAdd(titleMap,numericTitle,book.getTitle()); // numeric titles
+                } // grouping all titles.
         }
         return titleMap;
     }
@@ -159,12 +160,12 @@ public class GroupCmd extends LibraryCommand {
     public Map<String,List<String>> dataAdd(Map<String,List<String>> groupedData, String titleCategory, String title) {
         Objects.requireNonNull(groupedData,StdMsgs.STD_NULL_MSG.toString());
         Objects.requireNonNull(titleCategory,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString()); // error handling
 
         if (!groupedData.containsKey(titleCategory)) {
-            groupedData.put(titleCategory, new ArrayList<>());
+            groupedData.put(titleCategory, new ArrayList<>()); // if key does not exist, create a new one
         }
-        groupedData.get(titleCategory).add(title);
+        groupedData.get(titleCategory).add(title); // add values to key
         return groupedData;
     }
     /**
@@ -174,13 +175,12 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if the function parameter is null
      */
     public Map<String,List<String>> authorGroup(List<BookEntry> books) {
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString());
-        Map<String,List<String>> authorMap = new HashMap<>();
+        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Map<String,List<String>> authorMap = new HashMap<>(); // Map for all authors
         for (BookEntry book : books) {
-
-                for (String author : book.getAuthors()) {//placing the books based on the existence of the authors in the map
+                for (String author : book.getAuthors()) {
                     authorMap = dataAdd(authorMap,author,book.getTitle());
-                }
+                } // grouping all the authors
         }
         return authorMap;
     }
