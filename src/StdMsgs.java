@@ -10,6 +10,8 @@ public enum StdMsgs {
     INVALID_RATING_MSG("Invalid rating"),
     INVALID_PAGES_MSG("Invalid Pages"),
     OUT_OF_BOUND_MSG("Value out of bound"),
+    FILE_PARSING_ERROR("ERROR: No content loaded before parsing."),
+    CONTENT_LOADING_ERROR("ERROR: No content loaded before parsing."),
     TITLE_NOT_FOUND_MSG(": not found.");
     private final String description; // description of the message
 

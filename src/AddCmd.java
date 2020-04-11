@@ -29,20 +29,10 @@ public class AddCmd extends LibraryCommand {
     @Override
     protected boolean parseArguments(String addInput) {
         Objects.requireNonNull(addInput,StdMsgs.STD_NULL_MSG.toString());
-        String fileNameParsed = new File(addInput).getName(); // name of the file parsed
-        if (!fileNameParsed.contains(EXTENSION_SEPARATOR)) {
-            return false;
+        if (addInput.endsWith(CSV_EXTENSION)) {
+            addField = addInput;
+            return true;
         }
-        else {
-            int pathSeparatorIndex = fileNameParsed.indexOf(EXTENSION_SEPARATOR);
-            String extensionType = fileNameParsed.substring(pathSeparatorIndex);
-            if (extensionType.equals(CSV_EXTENSION)) {
-                addField = addInput;
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+        return false;
     }
 }

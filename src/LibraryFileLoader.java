@@ -69,39 +69,39 @@ public class LibraryFileLoader {
      * if no book data has been loaded yet.
      */
     public List<BookEntry> parseFileContent() {
-
-        List<BookEntry> bookEntryFileContent = new ArrayList<>();
-        try {
-            for (int i = 1;i<fileContent.size();i++) {
-                String[] bookEntryData = dataParser(fileContent.get(i));
-                bookEntryFileContent.add(castData(bookEntryData));
+        if (contentLoaded()) {
+            List<BookEntry> bookEntryFileContent = new ArrayList<>();
+            for (int i = 1; i <fileContent.size();i++) {
+                try {
+                    BookEntry book = castData(fileContent.get(i));
+                    bookEntryFileContent.add(book);
+                }
+                catch (NullPointerException | NumberFormatException e) { // expected exceptions from castData
+                    System.err.println("ERROR: Parsing book data failed: "+e);
+                }
             }
+            return bookEntryFileContent;
         }
-        catch (Exception e) {
+        else {
             System.err.println("ERROR: No content loaded before parsing.");
+            return null;
         }
-        return bookEntryFileContent;
     }
-    public String[] dataParser(String data) {
-        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); // making sure the object is not null
-        return data.split(",",0);
-    }
-    public BookEntry castData(String[] fileData) {
-        Objects.requireNonNull(fileData,StdMsgs.STD_NULL_MSG.toString());
-        String title = fileData[0];
-        String ISBN = fileData[3];
-        int pages = 0;
-        float rating = 0;
-        String[] authors = null;
-        try {
-            authors = fileData[1].split("-",0);
-            rating = Float.parseFloat(fileData[2]);
-            pages = Integer.parseInt(fileData[4]);
 
-        }
-        catch(NullPointerException | NumberFormatException e) {
-            System.err.println("ERROR: Invalid data in file");
-        }
+    /**
+     * This is to cast the string data into bookEntry readable form
+     * @param fileData is the string which contains all the data separated by commas
+     * @return the BookEntry object which contains authors,title, ISBN, pages, and the rating of the book
+     */
+    public BookEntry castData(String fileData) {
+        Objects.requireNonNull(fileData,StdMsgs.STD_NULL_MSG.toString());
+
+        String[] parsedData = fileData.split(",",0); //splitting by comma
+        String title = parsedData[0];
+        String ISBN = parsedData[3];
+        String[] authors = parsedData[1].split("-",0);
+        float rating = Float.parseFloat(parsedData[2]);
+        int pages = Integer.parseInt(parsedData[4]);
 
         return new BookEntry(title,authors,rating,ISBN,pages);
     }

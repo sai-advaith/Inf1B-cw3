@@ -9,7 +9,25 @@ public class SearchCmd extends LibraryCommand {
      */
     public SearchCmd(String searchField) {
         super(CommandType.SEARCH,searchField);
-        Objects.requireNonNull(searchField);
+    }
+
+    /**
+     * This is to parse the string based on the requirements of the SEARCH command and is used to check if is a single word
+     * @param searchInput is the search word which is later stored in memory
+     * @return true if it is a single word and otherwise false.
+     * @throws NullPointerException if the search input is null
+     */
+    @Override
+    protected  boolean parseArguments(String searchInput) {
+        Objects.requireNonNull(searchInput,StdMsgs.STD_NULL_MSG.toString());
+        if (!searchInput.isBlank()) {
+            if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
+                searchField = searchInput; // assigning the trimmed instance to the field
+                return true;//  This is to check if the length of the array is zero.
+            }
+        }
+        return false;
+
     }
 
     /**
@@ -22,6 +40,8 @@ public class SearchCmd extends LibraryCommand {
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
         List<BookEntry> booksList = data.getBookData();
+        Objects.requireNonNull(booksList,StdMsgs.STD_NULL_MSG.toString());
+
         if (booksList.contains(null)) {
             throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // checking if the bookEntry list has a null reference
         }
@@ -44,9 +64,10 @@ public class SearchCmd extends LibraryCommand {
      * This is to use a regex pattern matching for the string to be searched in the titles
      * @param bookTitles is the list of book titles which would searched to determine whether if it search is in the list
      * @return the titles which contain the searchWord in it, even a substring is matched
+     * @throws NullPointerException if the bookTitles list is null
      */
     public List<String> inString(List<String> bookTitles) {
-
+        Objects.requireNonNull(bookTitles,StdMsgs.STD_NULL_MSG.toString());
         List<String> matchCase = new ArrayList<>();
         //  returning the the match cases
         if (bookTitles.size() != 0) {
@@ -60,21 +81,5 @@ public class SearchCmd extends LibraryCommand {
 
     }
 
-    /**
-     * This is to parse the string based on the requirements of the SEARCH command and is used to check if is a single word
-     * @param searchInput is the search word which is later stored in memory
-     * @return true if it is a single word and otherwise false.
-     */
-    @Override
-    protected  boolean parseArguments(String searchInput) {
-        Objects.requireNonNull(searchInput,StdMsgs.STD_NULL_MSG.toString());
-        if (!searchInput.isBlank()) {
-            if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {
-                searchField = searchInput; // assigning the trimmed instance to the field
-                return true;//  This is to check if the length of the array is zero.
-            }
-        }
-        return false;
 
-    }
 }

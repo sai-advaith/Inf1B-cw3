@@ -17,8 +17,26 @@ public class ListCmd extends LibraryCommand {
      */
     public ListCmd(String listField) {
         super(CommandType.LIST,listField);
-        Objects.requireNonNull(listField);
     }
+
+    /**
+     * This method is an overriding method for parsing the arguments and making sure the arguments received are long or short
+     * Instead of using magic strings we have written it as constants in the class
+     * @param listInput this is the argument coming along with the list command type
+     * @return This gives whether our argument is valid or not based on whether it is short or long
+     */
+    @Override
+    protected boolean parseArguments(String listInput) {
+        Objects.requireNonNull(listInput,StdMsgs.STD_NULL_MSG.toString());
+        if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
+            listField = listInput;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     /**
      * This method executes the List Command of the code. 
@@ -30,12 +48,16 @@ public class ListCmd extends LibraryCommand {
     public void execute(LibraryData data) {
         Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); //  the data object cannot be null
         List<BookEntry> listCmdBooks = data.getBookData();
+        Objects.requireNonNull(listCmdBooks,StdMsgs.STD_NULL_MSG.toString()); //  the list of books cannot be null
+
         if (listCmdBooks.contains(null)) {
             throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
         }
+
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator which will be used in both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
         String output;
+
         if (listCmdBooks.size() == 0) {
             listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());
         }
@@ -64,21 +86,5 @@ public class ListCmd extends LibraryCommand {
         }
     }
 
-    /**
-     * This method is an overriding method for parsing the arguments and making sure the arguments received are long or short
-     * Instead of using magic strings we have written it as constants in the class
-     * @param listInput this is the argument coming along with the list command type
-     * @return This gives whether our argument is valid or not based on whether it is short or long
-     */
-    @Override
-    protected boolean parseArguments(String listInput) {
-        Objects.requireNonNull(listInput,StdMsgs.STD_NULL_MSG.toString());
-        if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
-            listField = listInput;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+
 }
