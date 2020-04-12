@@ -47,7 +47,7 @@ public class GroupCmd extends LibraryCommand {
             throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
         }
         Map<String, List<String>> groupMap; // hashMap to manipulate the data
-        TreeMap<String,List<String>> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); // case insensitive sorting of the keys
+        TreeMap<String,List<String>> sortedMap = new TreeMap<>(); // case insensitive sorting of the keys
         switch(groupField) {
             case RemoveCmd.TITLE:
                 groupMap = titleGroup(books); // grouping titles

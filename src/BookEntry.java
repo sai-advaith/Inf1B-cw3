@@ -51,7 +51,7 @@ public class BookEntry {
         else if (pages < MIN_PAGES) {
             throw new IllegalArgumentException(StdMsgs.INVALID_PAGES_MSG.toString()); // pages check
         }
-        // assigning once all possible errors are checked for
+        // assigning once possible errors are checked for
         this.title = title;
         this.authors = authors;
         this.rating = rating;

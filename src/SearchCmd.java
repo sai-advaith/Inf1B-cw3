@@ -49,11 +49,11 @@ public class SearchCmd extends LibraryCommand {
         for (BookEntry book : booksList) {
                 titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
-        if (inString(titleList).size() == 0) {
+        if (inTitle(titleList).size() == 0) {
             System.out.println(StdMsgs.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
         }
         else {
-            List<String> matchCases = inString(titleList);
+            List<String> matchCases = inTitle(titleList);
             for (String match : matchCases) {
                 System.out.println(match); //  this is the printing of the processed list
             }
@@ -66,7 +66,7 @@ public class SearchCmd extends LibraryCommand {
      * @return the titles which contain the searchWord in it, even a substring is matched
      * @throws NullPointerException if the bookTitles list is null
      */
-    public List<String> inString(List<String> bookTitles) {
+    public List<String> inTitle(List<String> bookTitles) {
         Objects.requireNonNull(bookTitles,StdMsgs.STD_NULL_MSG.toString());
         List<String> matchCase = new ArrayList<>();
         //  returning the the match cases

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 public enum StdMsgs {
     /**This illustrates all the standard messages for the console output*/
     EMPTY_LIBRARY_MSG("The library has no book entries."),
