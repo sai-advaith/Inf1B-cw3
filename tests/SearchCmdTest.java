@@ -8,6 +8,7 @@ public abstract class SearchCmdTest extends CommandTest {
     protected static final String SINGLE_WORD_TITLE = "Harry";
     protected static final String MULTI_WORD_TITLE_A = "The Castle in the Sky";
     protected static final String MULTI_WORD_TITLE_B = "Edinburgh Castle";
+
     protected static final String MULTI_WORD_SEARCH_TERM_SINGLE_HIT = "Sky";
 
     protected static final String NO_HITS_FOUND_MESSAGE = "No hits found for search term: ";

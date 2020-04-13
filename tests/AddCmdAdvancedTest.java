@@ -36,26 +36,31 @@ public class AddCmdAdvancedTest extends CommandTest {
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
         invalidPath = "hello.txt";
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
-
         invalidPath = "csv.py";
-        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
+        CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
     }
+
     @Test(expected = NullPointerException.class)
-    public void testParseArgumentsNull(){
+    public void testParseArgumentsNull() {
         String invalidPath = null; // null pointer expected if the string path is null
-        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
+        CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
     }
+
     @Test
     public void testParseArgumentsLegalArgument() {
-        String validPath = "csv.csv";
-        CommandTestUtils.checkArgumentInput(testCommand,true,validPath);
+        String validPath;
         CommandTestUtils.checkArgumentInput(testCommand, true, TEST_PATH);
-        CommandTestUtils.checkArgumentInput(testCommand, true, "this/is/some/test/path/for/books.csv");
+        validPath = "csv.csv";
+        CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
+        validPath = "this/is/some/test/path/for/books.csv";
+        CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
         validPath = "txt/csv/dat/py/hello.csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
         validPath = "books03.csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
         validPath = ".csv";
+        CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
+        validPath = " .csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
     }
 
@@ -70,13 +75,13 @@ public class AddCmdAdvancedTest extends CommandTest {
         books = new ArrayList<>();
         int expectedBookAmount = 0;
         assertEquals("Unexpected amount of books in library after loading file.", expectedBookAmount, books.size());
-// implementing empty array
+        // implementing empty array
         List<Object[]> expectedBookValues = new ArrayList<>();
         expectedBookValues.add(new Object[] { "TitleA", new String[] { "AuthorA" }, 3.2f, "ISBNA", 500 });
         expectedBookValues.add(
                 new Object[] { "The Changeling", new String[] { "Zilpha Keatley Snyder" }, 4.17f, "595321801", 228 });
-        expectedBookValues.add(
-                new Object[] { "Animal Farm", new String[] { "George Orwell" }, 3.91f, "452284244", 122 });
+        expectedBookValues
+                .add(new Object[] { "Animal Farm", new String[] { "George Orwell" }, 3.91f, "452284244", 122 });
 
         for (int i = 0; i < books.size(); i++) {
             BookEntryTestUtils.checkBookFieldValues(books.get(i), BookEntryBasicTest.BOOK_ENTRY_FIELD_NAMES,

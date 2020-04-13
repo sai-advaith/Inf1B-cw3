@@ -11,6 +11,24 @@ import static org.junit.Assert.assertFalse;
 
 public class BookEntryAdvancedTest extends BookEntryTest {
 
+    protected static final String ADVANCED_TITLE = "Odes to Common Things";
+
+    protected static final String[] ADVANCED_AUTHORS = { "J.K. Rowling", null };
+    protected static final String[] ADVANCED_AUTHORS1 = { "Pablo Neruda-Ferris", "Cook-Ken Krabbenhoft", "Hello World" };
+    protected static final String[] ADVANCED_AUTHORS2 = { "Hello World", "Pablo Neruda-Ferris", "Cook-Ken Krabbenhoft" };
+
+    protected static final float ADVANCED_RATING = 4.38f;
+
+    protected static final String ADVANCED_ISBN1 = null;
+    protected static final String ADVANCED_ISBN2 = "821220802";
+
+    protected static final int ADVANCED_PAGES2 = 152;
+
+    protected static final String ADVANCED_TOSTRING_RESULT = "Odes to Common Things\nby Pablo Neruda-Ferris, Cook-Ken Krabbenhoft, Hello World\nRating: 4.38\nISBN: 821220802\n152 pages";
+
+    public static final Object[] BOOK_ENTRY_FIELD_VALUES_ADVANCED = { ADVANCED_TITLE, ADVANCED_AUTHORS1,
+            ADVANCED_RATING, ADVANCED_ISBN2, ADVANCED_PAGES2 };
+
     // ------------------------- check fields --------------------
     protected BookEntry testBook;
 
@@ -21,33 +39,30 @@ public class BookEntryAdvancedTest extends BookEntryTest {
     @Before
     public void setup() {
         testBook = null;
-//        testBook = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS, ADVANCED_RATING, DEFAULT_ISBN, ADVANCED_PAGES);
+        // testBook = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS, ADVANCED_RATING,
+        // DEFAULT_ISBN, ADVANCED_PAGES);
     }
+
     @Test(expected = NullPointerException.class)
     public void invalidAuthors() {
         testBook = new BookEntry(DEFAULT_TITLE, ADVANCED_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
     }
-    @Test(expected = ArithmeticException.class)
-    public void invalidRating1() {
-        testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,ADVANCED_RATING1,DEFAULT_ISBN,DEFAULT_PAGES);
-    }
-    @Test(expected = ArithmeticException.class)
-    public void invalidRating2() {
-        testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,ADVANCED_RATING2,DEFAULT_ISBN,DEFAULT_PAGES);
-    }
+
     @Test(expected = NullPointerException.class)
     public void invalidISBN() {
-        testBook = new BookEntry(DEFAULT_TITLE,DEFAULT_AUTHORS,DEFAULT_RATING,ADVANCED_ISBN1,DEFAULT_PAGES);
+        testBook = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, ADVANCED_ISBN1, DEFAULT_PAGES);
     }
+
     @Test
     public void testFieldTypes() {
         for (int i = 0; i < BOOK_ENTRY_FIELD_NAMES.length; i++) {
             FieldTestUtils.checkFieldType(testBook, BOOK_ENTRY_FIELD_TYPES[i], BOOK_ENTRY_FIELD_NAMES[i]);
         }
     }
+
     @Before
     public void reset() {
-        testBook = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+        testBook = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING, ADVANCED_ISBN2, ADVANCED_PAGES2);
     }
     // ------------------------- check constructor --------------------
 
@@ -113,18 +128,23 @@ public class BookEntryAdvancedTest extends BookEntryTest {
     private void checkEquality(BookEntry bookA, BookEntry bookB, String field, boolean expected) {
         if (expected) {
             assertTrue("True return value expected for same fields.", bookA.equals(bookB) && bookB.equals(bookA));
-            assertEquals("Hashcode expected to be the same for objects with the same state.", bookA.hashCode(), bookB.hashCode());
+            assertEquals("Hashcode expected to be the same for objects with the same state.", bookA.hashCode(),
+                    bookB.hashCode());
         } else {
-            assertTrue("False return value expected for different " + field + ".", !bookA.equals(bookB) && !bookB.equals(bookA));
-            assertNotEquals("Hashcode should be different for objects with different state.", bookA.hashCode(), bookB.hashCode());
+            assertTrue("False return value expected for different " + field + ".",
+                    !bookA.equals(bookB) && !bookB.equals(bookA));
+            assertNotEquals("Hashcode should be different for objects with different state.", bookA.hashCode(),
+                    bookB.hashCode());
         }
     }
 
     @Test
     public void testEqualsAndHashCode() {
-        BookEntry bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
-        BookEntry bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS2, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
-// different ordering different books
+        BookEntry bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING, ADVANCED_ISBN2,
+                ADVANCED_PAGES2);
+        BookEntry bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS2, ADVANCED_RATING, ADVANCED_ISBN2,
+                ADVANCED_PAGES2);
+        // different ordering different books
         assertTrue("True return value expected for same book instance.", bookA.equals(bookA) && bookB.equals(bookB));
         assertEquals("Hashcode expected to be the same for same instance.", bookA.hashCode(), bookA.hashCode());
 
@@ -133,18 +153,19 @@ public class BookEntryAdvancedTest extends BookEntryTest {
 
         checkEquality(bookA, bookB, TITLE_FIELD_NAME, false);
 
-        bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
-        bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING3, ADVANCED_ISBN2, ADVANCED_PAGES2);
+        bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING, ADVANCED_ISBN2, ADVANCED_PAGES2);
+        bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING, ADVANCED_ISBN2, ADVANCED_PAGES2);
 
         checkEquality(bookA, bookB, TITLE_FIELD_NAME, true);
 
-        bookA = new BookEntry(DEFAULT_TITLE, new String[]{"Author A"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-        bookB = new BookEntry(DEFAULT_TITLE, new String[]{"Author B"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookA = new BookEntry(DEFAULT_TITLE, new String[] { "Author A" }, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookB = new BookEntry(DEFAULT_TITLE, new String[] { "Author B" }, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
 
         checkEquality(bookA, bookB, AUTHORS_FIELD_NAME, false);
 
-        bookA = new BookEntry(DEFAULT_TITLE, new String[]{"Author A"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
-        bookB = new BookEntry(DEFAULT_TITLE, new String[]{"Author A", "Author B"}, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookA = new BookEntry(DEFAULT_TITLE, new String[] { "Author A" }, DEFAULT_RATING, DEFAULT_ISBN, DEFAULT_PAGES);
+        bookB = new BookEntry(DEFAULT_TITLE, new String[] { "Author A", "Author B" }, DEFAULT_RATING, DEFAULT_ISBN,
+                DEFAULT_PAGES);
 
         checkEquality(bookA, bookB, AUTHORS_FIELD_NAME, false);
 
