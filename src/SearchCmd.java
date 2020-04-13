@@ -19,7 +19,7 @@ public class SearchCmd extends LibraryCommand {
      */
     @Override
     protected  boolean parseArguments(String searchInput) {
-        Objects.requireNonNull(searchInput,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(searchInput, StdMsg.STD_NULL_MSG.toString());
         if (!searchInput.isBlank()) {
             if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {// checking if there is only one word
                 searchField = searchInput;
@@ -38,19 +38,19 @@ public class SearchCmd extends LibraryCommand {
      */
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString());
         List<BookEntry> booksList = data.getBookData();
-        Objects.requireNonNull(booksList,StdMsgs.STD_NULL_MSG.toString()); // making sure the list is not null
+        Objects.requireNonNull(booksList, StdMsg.STD_NULL_MSG.toString()); // making sure the list is not null
 
         if (booksList.contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // should not contain null
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // should not contain null
         }
         List<String> titleList = new ArrayList<>();
         for (BookEntry book : booksList) {
                 titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
         if (inTitle(titleList).size() == 0) {
-            System.out.println(StdMsgs.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
+            System.out.println(StdMsg.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
         }
         else {
             List<String> matchCases = inTitle(titleList);
@@ -67,7 +67,7 @@ public class SearchCmd extends LibraryCommand {
      * @throws NullPointerException if the bookTitles list is null
      */
     public List<String> inTitle(List<String> bookTitles) {
-        Objects.requireNonNull(bookTitles,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(bookTitles, StdMsg.STD_NULL_MSG.toString());
         List<String> matchCase = new ArrayList<>();
         //  returning the the match cases
         if (!bookTitles.isEmpty()) { // loop only if not empty

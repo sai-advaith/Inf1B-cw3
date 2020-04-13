@@ -1,4 +1,3 @@
-import java.io.File;
 import java.nio.file.Paths;
 import java.util.Objects;
 public class AddCmd extends LibraryCommand {
@@ -22,7 +21,7 @@ public class AddCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String addInput) {
-        Objects.requireNonNull(addInput,StdMsgs.STD_NULL_MSG.toString()); // checking for non null
+        Objects.requireNonNull(addInput, StdMsg.STD_NULL_MSG.toString()); // checking for non null
         if (addInput.endsWith(CSV_EXTENSION)) { // if ends with ".csv" return true
             addField = addInput;
             return true;

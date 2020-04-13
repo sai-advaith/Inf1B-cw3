@@ -27,7 +27,7 @@ public class ListCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String listInput) {
-        Objects.requireNonNull(listInput,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(listInput, StdMsg.STD_NULL_MSG.toString());
         if  (listInput.equals(LONG) || listInput.equals(SHORT) || listInput.isBlank()) {
             listField = listInput; // if blank, short, or long the input is valid
             return true;
@@ -46,24 +46,24 @@ public class ListCmd extends LibraryCommand {
      */ 
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); //  the data object cannot be null
+        Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString()); //  the data object cannot be null
         List<BookEntry> listCmdBooks = data.getBookData();
-        Objects.requireNonNull(listCmdBooks,StdMsgs.STD_NULL_MSG.toString()); //  the list of books cannot be null
+        Objects.requireNonNull(listCmdBooks, StdMsg.STD_NULL_MSG.toString()); //  the list of books cannot be null
 
         if (listCmdBooks.contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // cannot contain null
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
 
         Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator for both the loops
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
 
         if (listCmdBooks.isEmpty()) {
-            listOutput.append(StdMsgs.EMPTY_LIBRARY_MSG.toString()); // output for empty list
+            listOutput.append(StdMsg.EMPTY_LIBRARY_MSG.toString()); // output for empty list
         }
 
         else {
             String output; // output of short data
-            listOutput.append(listCmdBooks.size()).append(StdMsgs.BOOK_NUM_MSG.toString()); // header of output
+            listOutput.append(listCmdBooks.size()).append(StdMsg.BOOK_NUM_MSG.toString()); // header of output
 
             if (listField.equals(SHORT) || listField.isBlank()) { // if blank or short
                 while (iterator.hasNext()) { //  Short printing

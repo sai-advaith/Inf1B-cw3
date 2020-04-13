@@ -1,6 +1,3 @@
-import com.sun.source.tree.Tree;
-
-import java.awt.print.Book;
 import java.util.*;
 
 public class GroupCmd extends LibraryCommand {
@@ -22,7 +19,7 @@ public class GroupCmd extends LibraryCommand {
      */
     @Override
     protected boolean parseArguments(String groupInput) {
-        Objects.requireNonNull(groupInput,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(groupInput, StdMsg.STD_NULL_MSG.toString());
         if (groupInput.equals(RemoveCmd.AUTHOR) || groupInput.equals(RemoveCmd.TITLE)) {
             groupField = groupInput; // checking if the parameter with group is AUTHOR or TITLE. Nothing else
             return true;
@@ -39,12 +36,12 @@ public class GroupCmd extends LibraryCommand {
      */
     @Override
     public void execute(LibraryData data) {
-        Objects.requireNonNull(data,StdMsgs.STD_NULL_MSG.toString()); // making sure the data object is not null
+        Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString()); // making sure the data object is not null
 
         List<BookEntry> books = data.getBookData();
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // list should not be null and should not contain null
+        Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // list should not be null and should not contain null
         if (books.contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString());
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString());
         }
         Map<String, List<String>> groupMap; // hashMap to manipulate the data
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(); // case insensitive sorting of the keys
@@ -70,16 +67,16 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of the parameters are null
      */
     public String mapOutput(Map<String,List<String>> groupArg) {
-        Objects.requireNonNull(groupArg,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(groupArg, StdMsg.STD_NULL_MSG.toString());
         StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
         StringBuilder numericOutput = new StringBuilder(); // Solving the issue with numbers appearing after the list
         // in author this does not matter, for title it does
         String groupPrefix = "## ";
         if (groupArg.size() == 0) {
-            output.append(StdMsgs.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
+            output.append(StdMsg.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
        }
         else {//  printing the particular HashMap
-            output.append(StdMsgs.GROUP_TYPE_MSG.toString()).append(groupField).append("\n");
+            output.append(StdMsg.GROUP_TYPE_MSG.toString()).append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                 if (!arg.getKey().equals(numericTitle)){
                     output.append(groupPrefix);
@@ -103,9 +100,9 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of the function parameters are null
      */
     public StringBuilder groupAppend(StringBuilder output, String key,List<String> values) {
-        Objects.requireNonNull(output,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(key,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(values,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Objects.requireNonNull(output, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(key, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(values, StdMsg.STD_NULL_MSG.toString()); // error handling
 
         output.append(key).append("\n").append(listToString(values)); // appending based on the format
         return output;
@@ -117,7 +114,7 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of the parameters are null
      */
     public String listToString(List<String> listValues) {
-        Objects.requireNonNull(listValues,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Objects.requireNonNull(listValues, StdMsg.STD_NULL_MSG.toString()); // error handling
 
         StringBuilder listConverter = new StringBuilder();
         for (String listValue : listValues) {
@@ -133,7 +130,7 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of function parameters are null
      */
     public Map<String,List<String>> titleGroup(List<BookEntry> books) {
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // error handling
 
         Map<String, List<String>> titleMap = new HashMap<>(); // Map for all titles
         for (BookEntry book : books) {
@@ -158,9 +155,9 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if any of the function parameters are null
      */
     public Map<String,List<String>> dataAdd(Map<String,List<String>> groupedData, String titleCategory, String title) {
-        Objects.requireNonNull(groupedData,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(titleCategory,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Objects.requireNonNull(groupedData, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(titleCategory, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(title, StdMsg.STD_NULL_MSG.toString()); // error handling
 
         if (!groupedData.containsKey(titleCategory)) {
             groupedData.put(titleCategory, new ArrayList<>()); // if key does not exist, create a new one
@@ -175,7 +172,7 @@ public class GroupCmd extends LibraryCommand {
      * @throws NullPointerException if the function parameter is null
      */
     public Map<String,List<String>> authorGroup(List<BookEntry> books) {
-        Objects.requireNonNull(books,StdMsgs.STD_NULL_MSG.toString()); // error handling
+        Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // error handling
         Map<String,List<String>> authorMap = new HashMap<>(); // Map for all authors
         for (BookEntry book : books) {
                 for (String author : book.getAuthors()) {

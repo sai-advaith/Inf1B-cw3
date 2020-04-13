@@ -1,9 +1,7 @@
-import java.awt.print.Book;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,7 +99,7 @@ public class LibraryFileLoader {
      * @return the BookEntry object which contains authors,title, ISBN, pages, and the rating of the book
      */
     public BookEntry castData(String fileData) {
-        Objects.requireNonNull(fileData,StdMsgs.STD_NULL_MSG.toString());
+        Objects.requireNonNull(fileData, StdMsg.STD_NULL_MSG.toString());
 
         String[] parsedData = fileData.split(COMMA_SEPARATOR,0); //splitting by comma
 

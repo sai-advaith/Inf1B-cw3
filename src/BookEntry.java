@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -35,21 +34,21 @@ public class BookEntry {
      * @throws ArithmeticException is thrown if the rating is positive or negative infinity or NaN.
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
-        Objects.requireNonNull(title,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(authors,StdMsgs.STD_NULL_MSG.toString());
-        Objects.requireNonNull(ISBN,StdMsgs.STD_NULL_MSG.toString()); // checking for null in the parameters
+        Objects.requireNonNull(title, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(authors, StdMsg.STD_NULL_MSG.toString());
+        Objects.requireNonNull(ISBN, StdMsg.STD_NULL_MSG.toString()); // checking for null in the parameters
 
         if (Arrays.asList(authors).contains(null)) {
-            throw new NullPointerException(StdMsgs.STD_NULL_MSG.toString()); // making sure the list does not contain null
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // making sure the list does not contain null
         }
         else if(Float.isNaN(rating) || Float.isInfinite(rating) || Float.isNaN(pages)) {
-            throw new ArithmeticException(StdMsgs.OUT_OF_BOUND_MSG.toString()); // ensuring the primitives are not infinite or NaN
+            throw new ArithmeticException(StdMsg.OUT_OF_BOUND_MSG.toString()); // ensuring the primitives are not infinite or NaN
         }
         else if (rating < MIN_RATING || rating > MAX_RATING) {
-            throw new IllegalArgumentException(StdMsgs.INVALID_RATING_MSG.toString()); // ratings check
+            throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // ratings check
         }
         else if (pages < MIN_PAGES) {
-            throw new IllegalArgumentException(StdMsgs.INVALID_PAGES_MSG.toString()); // pages check
+            throw new IllegalArgumentException(StdMsg.INVALID_PAGES_MSG.toString()); // pages check
         }
         // assigning once possible errors are checked for
         this.title = title;
