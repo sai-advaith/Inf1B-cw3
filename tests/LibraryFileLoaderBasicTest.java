@@ -21,7 +21,7 @@ public class LibraryFileLoaderBasicTest extends LibraryFileLoaderTest {
         List<Object[]> expectedValues = new ArrayList<>();
         expectedValues.add(BOOK_SAMPLE1_VALUES);
         expectedValues.add(BOOK_SAMPLE2_VALUES);
-
+        expectedValues.add(BOOK_SAMPLE3_VALUES);
         checkBookCollectionResult(testBookData, expectedValues);
     }
 

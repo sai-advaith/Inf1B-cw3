@@ -2,6 +2,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This command should allow the user to display all books
+ * currently loaded into the library in different formats
+ */
 public class ListCmd extends LibraryCommand {
     /**This is to store the user input*/
     private String listField;
@@ -20,8 +24,8 @@ public class ListCmd extends LibraryCommand {
     }
 
     /**
-     * This method is an overriding method for parsing the arguments and making sure the arguments received are long or short
-     * Instead of using magic strings we have written it as constants in the class
+     * This method is an overriding method for parsing the arguments and
+     * making sure the arguments received are long or short.
      * @param listInput this is the argument coming along with the list command type
      * @return This gives whether our argument is valid or not based on whether it is short or long
      */
@@ -42,7 +46,7 @@ public class ListCmd extends LibraryCommand {
      * This method executes the List Command of the code. 
      * @param data book data to be considered for command execution.
      * The Titles or the books are printed as per the necessity of the user as stated in the List command
-     * @throws NullPointerException if the BookEntry list contains a null reference
+     * @throws NullPointerException if the BookEntry list contains a null reference or data object is null
      */ 
     @Override
     public void execute(LibraryData data) {
@@ -54,11 +58,12 @@ public class ListCmd extends LibraryCommand {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
 
-        Iterator<BookEntry> iterator = listCmdBooks.iterator(); //  Declaring an iterator for both the loops
+        Iterator<BookEntry> iterator = listCmdBooks.iterator();
         StringBuilder listOutput = new StringBuilder(); //  The output of the code for List command
 
         if (listCmdBooks.isEmpty()) {
             listOutput.append(StdMsg.EMPTY_LIBRARY_MSG.toString()); // output for empty list
+            System.out.println(listOutput);
         }
 
         else {
@@ -84,6 +89,4 @@ public class ListCmd extends LibraryCommand {
             }
         }
     }
-
-
 }

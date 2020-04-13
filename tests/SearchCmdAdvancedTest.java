@@ -36,10 +36,16 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
         String blankArg = "";
         CommandTestUtils.checkArgumentInput(testCommand, false, blankArg);
 
+        blankArg = "     ";
+        CommandTestUtils.checkArgumentInput(testCommand,false,blankArg);
+
         String argWithSpaces = "invalid search query";
         CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
 
-        String argWithSpace = "hello     ";
+        argWithSpaces = "hello     ";
+        CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
+
+        argWithSpaces = "    hello    ";
         CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
     }
 
@@ -62,7 +68,6 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
         String expectedConsoleOutput = SINGLE_WORD_TITLE;
         CommandTestUtils.checkExecuteConsoleOutput(testCommand, testLibrary, expectedConsoleOutput);
     }
-
     @Test
     public void testExecuteFindWordMatch() {
         String expectedConsoleOutput = MULTI_WORD_TITLE_A;
@@ -73,10 +78,7 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
     public void testNullExec() {
         testCommand = new SearchCmd(null);
     }
-    @Test
-    public void multipleFindWordMatch() {
 
-    }
     @Test
     public void testExecuteFindNoMatch() {
         String searchTerm = "Unknown";

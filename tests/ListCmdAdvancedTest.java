@@ -44,7 +44,10 @@ public class ListCmdAdvancedTest extends ListCmdTest {
         String expectedConsoleOutput = "2 books in library:\nTitle A\nTitle A";
         CommandTestUtils.checkExecuteConsoleOutput(testCommand, testLibrary1, expectedConsoleOutput);
     }
-
+    @Test(expected = NullPointerException.class)
+    public void testNullObject() {
+        testCommand = new ListCmd(null);
+    }
     @Test
     public void testExecuteLongList() {
         testCommand = new ListCmd(LONG_ARGUMENT);
@@ -63,5 +66,11 @@ public class ListCmdAdvancedTest extends ListCmdTest {
                         "500 pages\n\n";
 
         CommandTestUtils.checkExecuteConsoleOutput(testCommand, testLibrary1, expectedConsoleOutput);
+    }
+    @Test
+    public void testExecuteEmpty() {
+        testCommand = new ListCmd(LONG_ARGUMENT);
+        String expectedConsoleOutput = "The library has no book entries.";
+        CommandTestUtils.checkExecuteConsoleOutput(testCommand, testLibrary, expectedConsoleOutput);
     }
 }

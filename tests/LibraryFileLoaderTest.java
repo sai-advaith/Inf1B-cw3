@@ -2,6 +2,7 @@ import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,13 +11,15 @@ public abstract class LibraryFileLoaderTest {
 
     protected static final String DATA_HEADER = "title,authors,average_rating,isbn,# num_pages";
     protected static final String DATA_SAMPLE1 = "The Changeling,Zilpha Keatley Snyder,4.17,595321801,228";
+    protected static final String DATA_SAMPLE3 = "Journey of the Sparrows,Fran Leeper Buss-Daisy Cubias,3.67,142302090,160";
     protected static final String DATA_SAMPLE2 = "Chester,Syd Hoff,3.75,64440958,64";
 
     protected static final Object[] BOOK_SAMPLE1_VALUES = { "The Changeling", new String[] { "Zilpha Keatley Snyder" },
             4.17f, "595321801", 228 };
     protected static final Object[] BOOK_SAMPLE2_VALUES = { "Chester", new String[] { "Syd Hoff" }, 3.75f, "64440958",
             64 };
-
+    protected static final Object[] BOOK_SAMPLE3_VALUES = {"Journey of the Sparrows",new String[] {"Fran Leeper Buss","Daisy Cubias"},
+            3.67f,"142302090",160};
     protected static final String FILE_CONTENT_FIELD_NAME = "fileContent";
 
     protected LibraryFileLoader testFileLoader;
@@ -34,7 +37,7 @@ public abstract class LibraryFileLoaderTest {
         testBookData.add(DATA_HEADER);
         testBookData.add(DATA_SAMPLE1);
         testBookData.add(DATA_SAMPLE2);
-
+        testBookData.add(DATA_SAMPLE3);
         setBookData(testBookData);
     }
 

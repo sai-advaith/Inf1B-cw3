@@ -1,5 +1,9 @@
 import java.nio.file.Paths;
 import java.util.Objects;
+
+/**
+ * Adding books from the book data csv file to the library
+ */
 public class AddCmd extends LibraryCommand {
     private String addField; // contains the input for adding files
 

@@ -29,9 +29,8 @@ public class BookEntry {
      * @param rating is the rating of the book and will be initialized to the encapsulated class variable rating
      * @param ISBN is the ISBN code of the book and will be initialized to the encapsulated class variable ISBN
      * @param pages is the number of pages in a book and will be initialized to the encapsulated class variable pages
-     * @throws IllegalArgumentException is thrown if any of the parameters of the constructor are not valid and hence need to be handled
+     * @throws IllegalArgumentException if any of the parameters of the constructor are not valid
      * @throws NullPointerException is thrown is any of the objects being passed into the constructor are null
-     * @throws ArithmeticException is thrown if the rating is positive or negative infinity or NaN.
      */
     public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException, NullPointerException{
         Objects.requireNonNull(title, StdMsg.STD_NULL_MSG.toString());
@@ -39,10 +38,7 @@ public class BookEntry {
         Objects.requireNonNull(ISBN, StdMsg.STD_NULL_MSG.toString()); // checking for null in the parameters
 
         if (Arrays.asList(authors).contains(null)) {
-            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // making sure the list does not contain null
-        }
-        else if(Float.isNaN(rating) || Float.isInfinite(rating) || Float.isNaN(pages)) {
-            throw new ArithmeticException(StdMsg.OUT_OF_BOUND_MSG.toString()); // ensuring the primitives are not infinite or NaN
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // list cannot contain null
         }
         else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // ratings check
@@ -107,7 +103,7 @@ public class BookEntry {
     public String toString() {
         String authorStr = Arrays.toString(authors); // string equivalent of the array
         return  title + '\n' +
-                "by " + authorStr.substring(1,authorStr.length()-1) + '\n' + // taking everything apart opening and closing braces
+                "by " + authorStr.substring(1,authorStr.length()-1) + '\n' + // everything apart parenthesis
                 "Rating: " + String.format(Locale.US,"%.02f",rating) + '\n' +
                 "ISBN: " + ISBN + '\n' +
                 pages + " pages";
@@ -135,8 +131,9 @@ public class BookEntry {
     }
 
     /**
-     * This is an overriding method to give the hashCode of the class variables
-     * @return the hashCode of the class variables
+     * This is an overriding method to give the hashCode from all of the instance fields
+     * For Strings and other primitive types, the hash function is used and Arrays.hashCode() for authors
+     * @return the hashCode from all five instance fields
      */
     @Override
     public int hashCode() {

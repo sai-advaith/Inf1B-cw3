@@ -1,5 +1,7 @@
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 public class GroupCmdBasicTest extends GroupCmdTest {
 
     // ------------------------- test helpers ----------------------------
-
     private void checkOutputHeader(String expectedHeader) {
         String[] executeStdOutLines = CommandTestUtils.captureExecuteStdOutputLines(testCommand, testLibrary);
         assertEquals("Unexpected group output header.", expectedHeader, executeStdOutLines[0]);

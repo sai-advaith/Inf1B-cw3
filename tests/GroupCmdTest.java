@@ -23,7 +23,7 @@ public abstract class GroupCmdTest extends CommandTest {
         List<BookEntry> bookData = new ArrayList<>();
         bookData.add(new BookEntry("B Title", new String[] { "B Author" }, 3.2f, "ISBNB", 500));
         bookData.add(new BookEntry("A Title", new String[] { "A Author" }, 4.3f, "ISBNA", 400));
-        bookData.add(new BookEntry("B Title 2", new String[] { "B Author" }, 4.3f, "ISBNB2", 400));
+        bookData.add(new BookEntry("b Title 2", new String[] { "B Author" }, 4.3f, "ISBNB2", 400));
         bookData.add(new BookEntry("C Title", new String[] { "C Author" }, 1.3f, "ISBNC", 300));
         bookData.add(new BookEntry("A Title 2", new String[] { "A Author" }, 1.3f, "ISBNA2", 300));
         bookData.add(new BookEntry("D Title", new String[] { "D Author" }, 1.3f, "ISBND", 300));

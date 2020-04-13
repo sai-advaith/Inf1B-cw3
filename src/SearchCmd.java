@@ -1,5 +1,10 @@
-import java.util.*;
-
+import java.util.List;
+import java.util.Objects;
+import java.util.ArrayList;
+/**
+ * This command should allow the user to search for specific books within the library
+ * and display them
+ */
 public class SearchCmd extends LibraryCommand {
     private String searchField;
 
@@ -12,22 +17,20 @@ public class SearchCmd extends LibraryCommand {
     }
 
     /**
-     * This is to parse the string based on the requirements of the SEARCH command and is used to check if is a single word
-     * @param searchInput is the search word which is later stored in memory
+     * This is to parse the string based on the requirements of the SEARCH command
+     * and is used to check if is a single word
+     * @param searchInput is the search word which is later stored in an instance field
      * @return true if it is a single word and otherwise false.
      * @throws NullPointerException if the search input is null
      */
     @Override
     protected  boolean parseArguments(String searchInput) {
         Objects.requireNonNull(searchInput, StdMsg.STD_NULL_MSG.toString());
-        if (!searchInput.isBlank()) {
-            if (searchInput.split(RemoveCmd.WHITE_SPACE, 0).length == 1) {// checking if there is only one word
-                searchField = searchInput;
-                return true;//  This is to check if the length of the array is zero.
-            }
+        if (!searchInput.contains(RemoveCmd.WHITE_SPACE) && !searchInput.isBlank()) {// if single word
+            searchField = searchInput;
+            return true;
         }
         return false;
-
     }
 
     /**
@@ -45,19 +48,23 @@ public class SearchCmd extends LibraryCommand {
         if (booksList.contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // should not contain null
         }
-        List<String> titleList = new ArrayList<>();
+
+        List<String> titleList = new ArrayList<>(); // list of all titles
+        List<String> matchCases; // list of all match cases
         for (BookEntry book : booksList) {
                 titleList.add(book.getTitle()); //  storing the title of every book in a list
         }
-        if (inTitle(titleList).size() == 0) {
+
+        matchCases = inTitle(titleList);
+        if (matchCases.isEmpty()) {
             System.out.println(StdMsg.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
         }
         else {
-            List<String> matchCases = inTitle(titleList);
             for (String match : matchCases) {
                 System.out.println(match); //  this is the printing of the processed list
             }
         }
+
     }
 
     /**
@@ -72,7 +79,7 @@ public class SearchCmd extends LibraryCommand {
         //  returning the the match cases
         if (!bookTitles.isEmpty()) { // loop only if not empty
             for (String title : bookTitles) {
-                if (title.toLowerCase().contains(searchField.toLowerCase())) {
+                if (title.toLowerCase().contains(searchField.toLowerCase())) { // case insensitive
                     matchCase.add(title); // all match-cases in a list
                 }
             }

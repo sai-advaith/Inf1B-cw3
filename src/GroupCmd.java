@@ -1,7 +1,12 @@
 import java.util.*;
 
+/**
+ * This command is a variant of the LIST command
+ * and should allow the user to display book entries in specific groups.
+ */
 public class GroupCmd extends LibraryCommand {
     private String groupField; //  argument to store the user input
+
     /**If the title is numeric i.e. does not start with alphabet*/
     private final String numericTitle = "[0-9]";
 
@@ -12,9 +17,10 @@ public class GroupCmd extends LibraryCommand {
     public GroupCmd(String groupField) {
         super(CommandType.GROUP,groupField); // calling the baseclass constructor
     }
+
     /**
-     * Overriding method to make sure the arguments being given are as per the requirement of the user
-     * @param groupInput is the input which specifies how the books need to be grouped as per the requirement of the user
+     * Overriding method to make sure the arguments being given is compatible
+     * @param groupInput is the input which specifies how the books need to be grouped
      * @return a boolean whether the argument is valid or not.
      */
     @Override
@@ -32,30 +38,32 @@ public class GroupCmd extends LibraryCommand {
     /**
      * This is the overriding execute method which prints the books in a group based on user request
      * @param data is the LibraryData object which is used to access the book data
-     * @throws NullPointerException if the BookEntry list contains a null reference
+     * @throws NullPointerException if the BookEntry list contains a null reference or LibraryData object is null
      */
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString()); // making sure the data object is not null
 
         List<BookEntry> books = data.getBookData();
-        Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // list should not be null and should not contain null
+        Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // list should not be null
         if (books.contains(null)) {
-            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString());
+            throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
+
         Map<String, List<String>> groupMap; // hashMap to manipulate the data
-        TreeMap<String,List<String>> sortedMap = new TreeMap<>(); // case insensitive sorting of the keys
+        TreeMap<String,List<String>> sortedMap = new TreeMap<>(); // sorting of the keys
+
         switch(groupField) {
             case RemoveCmd.TITLE:
                 groupMap = titleGroup(books); // grouping titles
                 sortedMap.putAll(groupMap); //  putting all the grouped books in the treeMap
-                System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
+                System.out.println(mapOutput(sortedMap).trim());
                 break;
 
             case RemoveCmd.AUTHOR:
                 groupMap = authorGroup(books); // grouping authors
                 sortedMap.putAll(groupMap);//  putting all the grouped books in the treeMap
-                System.out.println(mapOutput(sortedMap).trim()); // grouping and outputting
+                System.out.println(mapOutput(sortedMap).trim());
                 break;
         }
     }
@@ -69,12 +77,13 @@ public class GroupCmd extends LibraryCommand {
     public String mapOutput(Map<String,List<String>> groupArg) {
         Objects.requireNonNull(groupArg, StdMsg.STD_NULL_MSG.toString());
         StringBuilder output = new StringBuilder(); //  StringBuilder which will contain the output string
-        StringBuilder numericOutput = new StringBuilder(); // Solving the issue with numbers appearing after the list
-        // in author this does not matter, for title it does
+        StringBuilder numericOutput = new StringBuilder(); // Ensuring numeric titles appear last
         String groupPrefix = "## ";
-        if (groupArg.size() == 0) {
+
+        if (groupArg.isEmpty()) {
             output.append(StdMsg.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
-       }
+        }
+
         else {//  printing the particular HashMap
             output.append(StdMsg.GROUP_TYPE_MSG.toString()).append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
@@ -86,8 +95,8 @@ public class GroupCmd extends LibraryCommand {
                     numericOutput.append(groupPrefix);
                     numericOutput = groupAppend(numericOutput,numericTitle,arg.getValue());
                 }
-           }
-       }
+            }
+        }
         return output.append(numericOutput).toString(); // appending numeric after alphabets based on output in papers
     }
 
@@ -107,6 +116,7 @@ public class GroupCmd extends LibraryCommand {
         output.append(key).append("\n").append(listToString(values)); // appending based on the format
         return output;
     }
+
     /**
      * This method is to convert the list values into string which is later printed
      * @param listValues is the list of strings of book titles
@@ -118,7 +128,7 @@ public class GroupCmd extends LibraryCommand {
 
         StringBuilder listConverter = new StringBuilder();
         for (String listValue : listValues) {
-            listConverter.append("\t").append(listValue).append("\n"); // converting the list to a string based on the format
+            listConverter.append("\t").append(listValue).append("\n"); // List formatting
         }
         return listConverter.toString();
     }
@@ -165,6 +175,7 @@ public class GroupCmd extends LibraryCommand {
         groupedData.get(titleCategory).add(title); // add values to key
         return groupedData;
     }
+
     /**
      * This is the method which groups the array based on the authors
      * @param books is the list of books which are grouped based on the author
@@ -181,6 +192,4 @@ public class GroupCmd extends LibraryCommand {
         }
         return authorMap;
     }
-
-
 }

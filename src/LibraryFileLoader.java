@@ -69,7 +69,7 @@ public class LibraryFileLoader {
 
     /**
      * Parse file content loaded previously with the loadFileContent method.
-     * 
+     *
      * @return books parsed from the previously loaded book data or an empty list
      * if no book data has been loaded yet.
      */
@@ -77,11 +77,12 @@ public class LibraryFileLoader {
         List<BookEntry> bookEntryFileContent = new ArrayList<>(); // BookEntry list
         if (contentLoaded()) { // if not null, add data to the list
             for (int i = 1; i <fileContent.size();i++) {
+                // running loop from 1, since the first row can be ignored.
                 try {
                     BookEntry book = castData(fileContent.get(i));
                     bookEntryFileContent.add(book); // adding the data to the book if no issues with
                 }
-                catch (NullPointerException | NumberFormatException e) { // expected exceptions from castData
+                catch (NullPointerException | IllegalArgumentException e) { // expected exceptions from castData
                     System.err.println("ERROR: Parsing book data failed: "+e);
                 }
             }
@@ -90,15 +91,18 @@ public class LibraryFileLoader {
         else {
             System.err.println("ERROR: No content loaded before parsing."); // error message for null list
         }
-        return bookEntryFileContent; // returning empty list
+        return bookEntryFileContent; // returning empty list if nothing loaded. NOT NULL.
     }
 
     /**
      * This is to cast the string data into bookEntry readable form
+     * Based on the format given in the papers.
+     *
      * @param fileData is the string which contains all the data separated by commas
      * @return the BookEntry object which contains authors,title, ISBN, pages, and the rating of the book
+     * @throws NullPointerException if the fileData String is null. This prevents possible exceptions.
      */
-    public BookEntry castData(String fileData) {
+    private BookEntry castData(String fileData) {
         Objects.requireNonNull(fileData, StdMsg.STD_NULL_MSG.toString());
 
         String[] parsedData = fileData.split(COMMA_SEPARATOR,0); //splitting by comma
