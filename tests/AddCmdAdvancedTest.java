@@ -38,12 +38,15 @@ public class AddCmdAdvancedTest extends CommandTest {
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
         invalidPath = "csv.py";
         CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
+        invalidPath = "/Users/advaithsai/Inf1B-cw3/tests/AddCmdAdvancedTest.java";
+        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
+        invalidPath = ".csv\n";
+        CommandTestUtils.checkArgumentInput(testCommand,false,invalidPath);
     }
 
     @Test(expected = NullPointerException.class)
     public void testParseArgumentsNull() {
-        String invalidPath = null; // null pointer expected if the string path is null
-        CommandTestUtils.checkArgumentInput(testCommand, false, invalidPath);
+        CommandTestUtils.checkArgumentInput(testCommand, false, null);
     }
 
     @Test
@@ -60,12 +63,15 @@ public class AddCmdAdvancedTest extends CommandTest {
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
         validPath = ".csv";
         CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
-        validPath = " .csv";
-        CommandTestUtils.checkArgumentInput(testCommand, true, validPath);
+        validPath = "/path/to/a/file/does/not/exist.csv";
+        CommandTestUtils.checkArgumentInput(testCommand,true,validPath);
     }
 
     // ------------------------- execute tests --------------------
-
+    @Test(expected = NullPointerException.class)
+    public void testExecuteNullData() {
+        testCommand.execute(null);
+    }
     @Test
     public void testExecuteLoadData() {
 

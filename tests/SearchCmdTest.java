@@ -23,6 +23,7 @@ public abstract class SearchCmdTest extends CommandTest {
         testCommand = new SearchCmd(SINGLE_WORD_TITLE);
 
         testLibrary = new LibraryData();
+        testLibrary1 = new LibraryData();
         List<BookEntry> bookData = new ArrayList<>();
         bookData.add(new BookEntry(MULTI_WORD_TITLE_A, new String[]{"AuthorA"}, 3.2f, "ISBNA", 500));
         bookData.add(new BookEntry(SINGLE_WORD_TITLE, new String[]{"AuthorB"}, 4.3f, "ISBNB", 400));

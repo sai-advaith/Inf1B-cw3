@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCmdAdvancedTest extends SearchCmdTest {
-
+    protected static final String ADVANCED_WORD_TITLE = "and";
     // ------------------------- parseArguments tests --------------------
     @Override
     protected CommandType getCmdType() {
@@ -38,6 +38,9 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
 
         String argWithSpaces = "invalid search query";
         CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
+
+        String argWithSpace = "hello     ";
+        CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
     }
 
     @Test
@@ -66,7 +69,14 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
         testCommand = new SearchCmd(MULTI_WORD_SEARCH_TERM_SINGLE_HIT);
         CommandTestUtils.checkExecuteConsoleOutput(testCommand, testLibrary, expectedConsoleOutput);
     }
+    @Test(expected = NullPointerException.class)
+    public void testNullExec() {
+        testCommand = new SearchCmd(null);
+    }
+    @Test
+    public void multipleFindWordMatch() {
 
+    }
     @Test
     public void testExecuteFindNoMatch() {
         String searchTerm = "Unknown";

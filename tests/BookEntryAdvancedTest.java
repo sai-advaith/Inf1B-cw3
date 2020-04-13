@@ -18,12 +18,13 @@ public class BookEntryAdvancedTest extends BookEntryTest {
     protected static final String[] ADVANCED_AUTHORS2 = { "Hello World", "Pablo Neruda-Ferris", "Cook-Ken Krabbenhoft" };
 
     protected static final float ADVANCED_RATING = 4.38f;
-
+    protected static final float ADVANCED_RATING1 = 100f;
+    protected static final float ADVANCED_RATING2 = -1f;
     protected static final String ADVANCED_ISBN1 = null;
     protected static final String ADVANCED_ISBN2 = "821220802";
 
     protected static final int ADVANCED_PAGES2 = 152;
-
+    protected static final int ADVANCED_PAGES1 = -1;
     protected static final String ADVANCED_TOSTRING_RESULT = "Odes to Common Things\nby Pablo Neruda-Ferris, Cook-Ken Krabbenhoft, Hello World\nRating: 4.38\nISBN: 821220802\n152 pages";
 
     public static final Object[] BOOK_ENTRY_FIELD_VALUES_ADVANCED = { ADVANCED_TITLE, ADVANCED_AUTHORS1,
@@ -52,13 +53,24 @@ public class BookEntryAdvancedTest extends BookEntryTest {
     public void invalidISBN() {
         testBook = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, ADVANCED_ISBN1, DEFAULT_PAGES);
     }
-
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidPages() {
+        testBook = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, DEFAULT_RATING, DEFAULT_ISBN, ADVANCED_PAGES1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidRating() {
+        testBook = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, ADVANCED_RATING1, DEFAULT_ISBN, DEFAULT_PAGES);
+    }@Test(expected = IllegalArgumentException.class)
+    public void invalidRating1() {
+        testBook = new BookEntry(DEFAULT_TITLE, DEFAULT_AUTHORS, ADVANCED_RATING2, DEFAULT_ISBN, DEFAULT_PAGES);
+    }
     @Test
     public void testFieldTypes() {
         for (int i = 0; i < BOOK_ENTRY_FIELD_NAMES.length; i++) {
             FieldTestUtils.checkFieldType(testBook, BOOK_ENTRY_FIELD_TYPES[i], BOOK_ENTRY_FIELD_NAMES[i]);
         }
     }
+
 
     @Before
     public void reset() {
@@ -144,13 +156,14 @@ public class BookEntryAdvancedTest extends BookEntryTest {
                 ADVANCED_PAGES2);
         BookEntry bookB = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS2, ADVANCED_RATING, ADVANCED_ISBN2,
                 ADVANCED_PAGES2);
+        AddCmd bookC = new AddCmd("wtf.csv");
         // different ordering different books
         assertTrue("True return value expected for same book instance.", bookA.equals(bookA) && bookB.equals(bookB));
         assertEquals("Hashcode expected to be the same for same instance.", bookA.hashCode(), bookA.hashCode());
 
         assertFalse("False return value expected if compared to different object type.", bookA.equals("test"));
         assertFalse("False return value expected if compared to null.", bookA.equals(null));
-
+        assertFalse("False return value expected if compared to another class.",bookA.equals(bookC));
         checkEquality(bookA, bookB, TITLE_FIELD_NAME, false);
 
         bookA = new BookEntry(ADVANCED_TITLE, ADVANCED_AUTHORS1, ADVANCED_RATING, ADVANCED_ISBN2, ADVANCED_PAGES2);
