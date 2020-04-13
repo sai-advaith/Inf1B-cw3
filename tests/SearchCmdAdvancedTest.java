@@ -42,17 +42,17 @@ public class SearchCmdAdvancedTest extends SearchCmdTest {
         String argWithSpaces = "invalid search query";
         CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
 
-        argWithSpaces = "hello     ";
-        CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
 
-        argWithSpaces = "    hello    ";
-        CommandTestUtils.checkArgumentInput(testCommand, false, argWithSpaces);
     }
 
     @Test
     public void testParseArgumentsLegalArgument() {
         CommandTestUtils.checkArgumentInput(testCommand, true, SINGLE_WORD_TITLE);
+        String argWithSpaces = "hello     ";
+        CommandTestUtils.checkArgumentInput(testCommand, true, argWithSpaces);
 
+        argWithSpaces = "    hello    ";
+        CommandTestUtils.checkArgumentInput(testCommand, true, argWithSpaces);
         String argWithHyphen = "Hundred-Dollar";
         CommandTestUtils.checkArgumentInput(testCommand, true, argWithHyphen);
     }

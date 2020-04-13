@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /** 
- * Class responsible for loading
- * book data from file.
+ * Class responsible for loading book data from file.
  */
 public class LibraryFileLoader {
 
@@ -22,11 +21,6 @@ public class LibraryFileLoader {
      * end of each line.
      */
     private List<String> fileContent;
-
-    /**Separator for values in csv files*/
-    private final String COMMA_SEPARATOR = ",";
-    /**Separator for authors in the csv files*/
-    private final String AUTHOR_SEPARATOR = "-";    // private since used only in this class
 
 
     /** Create a new loader. No file content has been loaded yet. */
@@ -83,32 +77,33 @@ public class LibraryFileLoader {
                     bookEntryFileContent.add(book); // adding the data to the book if no issues with
                 }
                 catch (NullPointerException | IllegalArgumentException e) { // expected exceptions from castData
-                    System.err.println("ERROR: Parsing book data failed: "+e);
+                    System.err.println(StdMsg.FILE_PARSING_ERROR.toString()+e);
                 }
             }
         }
-
         else {
-            System.err.println("ERROR: No content loaded before parsing."); // error message for null list
+            System.err.println(StdMsg.CONTENT_LOADING_ERROR.toString()); // error message for null list
         }
-        return bookEntryFileContent; // returning empty list if nothing loaded. NOT NULL.
+        return bookEntryFileContent; // returning empty list if nothing loaded
     }
 
     /**
-     * This is to cast the string data into bookEntry readable form
-     * Based on the format given in the papers.
-     *
+     * Cast the string data into bookEntry object
+     * Based on the format specified in the assignment.
      * @param fileData is the string which contains all the data separated by commas
-     * @return the BookEntry object which contains authors,title, ISBN, pages, and the rating of the book
+     * @return the BookEntry object which contains title, authors, rating, ISBN, and the pages of the book
      * @throws NullPointerException if the fileData String is null. This prevents possible exceptions.
      */
     private BookEntry castData(String fileData) {
         Objects.requireNonNull(fileData, StdMsg.STD_NULL_MSG.toString());
 
-        String[] parsedData = fileData.split(COMMA_SEPARATOR,0); //splitting by comma
+        String commaSeparator = ",";
+        String[] parsedData = fileData.split(commaSeparator,0); //splitting by comma
 
         String title = parsedData[0];
-        String[] authors = parsedData[1].split(AUTHOR_SEPARATOR,0); // splitting by hyphen
+        // private since used only in this class
+        String authorSeparator = "-";
+        String[] authors = parsedData[1].split(authorSeparator,0); // splitting by hyphen
         float rating = Float.parseFloat(parsedData[2]); // casting the data
         String ISBN = parsedData[3];
         int pages = Integer.parseInt(parsedData[4]);

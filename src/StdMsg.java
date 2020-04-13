@@ -1,6 +1,5 @@
 /**All types of standard output messages for the commands*/
 public enum StdMsg {
-    /**This illustrates all the standard messages for the console output*/
     EMPTY_LIBRARY_MSG("The library has no book entries."),
 
     STD_NULL_MSG("Given input argument must not be null."),
@@ -19,9 +18,7 @@ public enum StdMsg {
 
     INVALID_PAGES_MSG("Invalid Pages"),
 
-    OUT_OF_BOUND_MSG("Value out of bound"),
-
-    FILE_PARSING_ERROR("ERROR: No content loaded before parsing."),
+    FILE_PARSING_ERROR("ERROR: Parsing book data failed: "),
 
     CONTENT_LOADING_ERROR("ERROR: No content loaded before parsing."),
 
@@ -35,14 +32,6 @@ public enum StdMsg {
      */
     StdMsg(String description) {
         this.description = description;
-    }
-
-    /**
-     * Getter for the description of the message
-     * @return message description
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**

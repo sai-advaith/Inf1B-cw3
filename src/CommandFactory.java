@@ -9,6 +9,7 @@ public final class CommandFactory { // the final keyword prevents subclassing of
     private CommandFactory() {
         // Utility classes do not need constructors and this is a way of preventing them 
         // from being instantiated accidentally.
+        throw new UnsupportedOperationException("This Constructor should never be used.");
     }
 
     /**

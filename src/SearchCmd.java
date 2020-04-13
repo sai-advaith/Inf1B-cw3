@@ -2,31 +2,31 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ArrayList;
 /**
- * This command should allow the user to search for specific books within the library
- * and display them
+ * This command should allow the user to search for specific books within the library and display them
  */
 public class SearchCmd extends LibraryCommand {
-    private String searchField;
+    private String searchField; // instance field
 
     /**
-     * This is the constructor which calls the constructor in library command, the parent constructor
-     * @param searchField is the word to be searched
+     * constructor which calls the constructor in LibraryCommand
+     * @param searchField is the word to be searched for
      */
     public SearchCmd(String searchField) {
-        super(CommandType.SEARCH,searchField); // calling the baseclass constructor
+        super(CommandType.SEARCH,searchField); // calling the superclass constructor
     }
 
     /**
-     * This is to parse the string based on the requirements of the SEARCH command
-     * and is used to check if is a single word
+     * Parse the string based on the requirements of the SEARCH command
+     * and is used to check if input is a single word
      * @param searchInput is the search word which is later stored in an instance field
-     * @return true if it is a single word and otherwise false.
+     * @return if search input is a single word and not blank
      * @throws NullPointerException if the search input is null
      */
     @Override
     protected  boolean parseArguments(String searchInput) {
         Objects.requireNonNull(searchInput, StdMsg.STD_NULL_MSG.toString());
-        if (!searchInput.contains(RemoveCmd.WHITE_SPACE) && !searchInput.isBlank()) {// if single word
+        // if single word and not blank
+        if (!searchInput.trim().contains(RemoveCmd.WHITE_SPACE) && !searchInput.isBlank()) {
             searchField = searchInput;
             return true;
         }
@@ -34,10 +34,9 @@ public class SearchCmd extends LibraryCommand {
     }
 
     /**
-     * This is an overriding function of the same function LibraryCommand and hence is used to execute the SearchCmd option
-     * @param data book data to be considered for command execution.
-     * This prints the titleList of the titles which occur in the list
-     * @throws NullPointerException if the BookEntry list contains a null reference.
+     * Executes the SearchCmd option and prints the titles which contain the search input
+     * @param data book data to be considered for command execution
+     * @throws NullPointerException if the BookEntry list contains a null reference
      */
     @Override
     public void execute(LibraryData data) {
@@ -68,12 +67,12 @@ public class SearchCmd extends LibraryCommand {
     }
 
     /**
-     * This is to use a regex pattern matching for the string to be searched in the titles
-     * @param bookTitles is the list of book titles which would searched to determine whether if it search is in the list
-     * @return the titles which contain the searchWord in it, even a substring is matched
+     * Checks whether the search input is in the list of book titles
+     * @param bookTitles is the list of book titles which would searched
+     * @return the titles which contain the search input in it
      * @throws NullPointerException if the bookTitles list is null
      */
-    public List<String> inTitle(List<String> bookTitles) {
+    private List<String> inTitle(List<String> bookTitles) {
         Objects.requireNonNull(bookTitles, StdMsg.STD_NULL_MSG.toString());
         List<String> matchCase = new ArrayList<>();
         //  returning the the match cases

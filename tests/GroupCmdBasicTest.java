@@ -22,6 +22,7 @@ public class GroupCmdBasicTest extends GroupCmdTest {
         String blankArg = "";
         CommandTestUtils.checkArgumentInput(testCommand, false, blankArg);
         CommandTestUtils.checkArgumentInput(testCommand, false, "nonsense");
+        CommandTestUtils.checkArgumentInput(testCommand,false,"AuThOr");
     }
 
     @Test
