@@ -27,8 +27,8 @@ public enum StdMsg {
     private final String description; // description of the message
 
     /**
-     * This is a parameterized constructor for the string as a std_msg
-     * @param description is the std_msg
+     * This is a parameterized constructor for the enum
+     * @param description is the description of the console output
      */
     StdMsg(String description) {
         this.description = description;
@@ -36,7 +36,7 @@ public enum StdMsg {
 
     /**
      * Overriding the toString method of enums
-     * @return the description as a string
+     * @return the description of the output
      */
     @Override
     public String toString() {
