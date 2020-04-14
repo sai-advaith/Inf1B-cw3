@@ -24,7 +24,7 @@ public enum StdMsg {
 
     /**
      * Overriding the toString() method of enums
-     * @return the description of the output
+     * @return the description of the output/error message
      */
     @Override
     public String toString() {
