@@ -25,7 +25,7 @@ public class GroupCmd extends LibraryCommand {
     /**
      * Overriding method to make sure the argument given is compatible
      * @param groupInput is the input which specifies how the books need to be grouped
-     * @return whether the argument is valid or not.
+     * @return whether the argument is valid or not
      */
     @Override
     protected boolean parseArguments(String groupInput) {
@@ -86,7 +86,7 @@ public class GroupCmd extends LibraryCommand {
         }
 
         else {//  printing the particular HashMap
-            output.append(StdMsg.GROUP_TYPE_MSG.toString()).append(groupField).append("\n");
+            output.append("Grouped data by ").append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
                 if (!arg.getKey().equals(numericTitle)){
                     output.append(groupPrefix);
@@ -137,8 +137,8 @@ public class GroupCmd extends LibraryCommand {
 
 
     /**
-     * Performs the addition of keys and values to the HashMap
-     * @param groupedData is the HashMap which contains the data grouped(either AUTHOR or TITLE)
+     * Performs the addition of keys and values (Data) to the HashMap
+     * @param groupedData is the HashMap which contains the grouped data based on either AUTHOR or TITLE
      * @param titleCategory is the author/alphabet which forms the key of the HashMap
      * @param title is the book title which forms the value of the HashMap
      * @throws NullPointerException if any of the function parameters are null

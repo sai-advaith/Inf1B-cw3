@@ -73,7 +73,7 @@ public class LibraryFileLoader {
             for (int i = 1; i <fileContent.size();i++) {
                 // running loop from 1, since the first row can be ignored.
                 try {
-                    BookEntry book = castData(fileContent.get(i));
+                    BookEntry book = parseData(fileContent.get(i));
                     bookEntryFileContent.add(book); // adding the data to the book if no issues with
                 }
                 catch (NullPointerException | IllegalArgumentException e) { // expected exceptions from castData
@@ -94,15 +94,14 @@ public class LibraryFileLoader {
      * @return the BookEntry object which contains title, authors, rating, ISBN, and the pages of the book
      * @throws NullPointerException if the fileData String is null. This prevents possible exceptions.
      */
-    private BookEntry castData(String fileData) {
+    private BookEntry parseData(String fileData) {
         Objects.requireNonNull(fileData, StdMsg.STD_NULL_MSG.toString());
 
         String commaSeparator = ",";
-        String[] parsedData = fileData.split(commaSeparator,0); //splitting by comma
-
-        String title = parsedData[0];
-        // private since used only in this class
         String authorSeparator = "-";
+
+        String[] parsedData = fileData.split(commaSeparator,0); //splitting by comma
+        String title = parsedData[0];
         String[] authors = parsedData[1].split(authorSeparator,0); // splitting by hyphen
         float rating = Float.parseFloat(parsedData[2]); // casting the data
         String ISBN = parsedData[3];

@@ -9,9 +9,9 @@ import java.util.Objects;
 public class RemoveCmd extends LibraryCommand {
     private String removeField; // instance field
 
-    /**Constant string which indicates author removal*/
+    /**Command which indicates author removal*/
     public static final String AUTHOR = "AUTHOR";
-    /**Constant string which indicates title removal*/
+    /**Command which indicates title removal*/
     public static final String TITLE = "TITLE";
     /**Constant string which indicates white space*/
     public static final String WHITE_SPACE = " ";
@@ -34,6 +34,7 @@ public class RemoveCmd extends LibraryCommand {
     @Override
     protected boolean parseArguments(String removeInput) {
         Objects.requireNonNull(removeInput, StdMsg.STD_NULL_MSG.toString());
+
         int firstSpace = removeInput.indexOf(WHITE_SPACE); //  Checking the first occurrence of whitespace
         int notFoundIndex = -1;
         if (firstSpace != notFoundIndex){
@@ -71,16 +72,16 @@ public class RemoveCmd extends LibraryCommand {
             case AUTHOR:
                 String author = getRemoveArg(removeField); //  the author of the book to be removed
                 int removedBooks = authorRemoval(bookList,author);
-                removalOutput.append(removedBooks).append(StdMsg.AUTHOR_REMOVE_MSG.toString()).append(author);
+                removalOutput.append(removedBooks).append(" books removed for author: ").append(author);
                 break;
 
             case TITLE:
                 String title = getRemoveArg(removeField); // the title of the book to be removed
                 if (titleRemoval(bookList,title)) {
-                    removalOutput.append(title).append(StdMsg.REMOVE_SUCCESS_MSG.toString()); // removed
+                    removalOutput.append(title).append(": removed successfully."); // removed
                 }
                 else {
-                    removalOutput.append(title).append(StdMsg.TITLE_NOT_FOUND_MSG.toString());// title not found
+                    removalOutput.append(title).append(": not found.");// title not found
                 }
                 break;
         }

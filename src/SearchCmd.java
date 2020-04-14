@@ -56,7 +56,7 @@ public class SearchCmd extends LibraryCommand {
 
         matchCases = inTitle(titleList);
         if (matchCases.isEmpty()) {
-            System.out.println(StdMsg.NO_SEARCH_MSG.toString()+searchField);//  the case where the length is zero
+            System.out.println("No hits found for search term: "+searchField);//  the case where the length is zero
         }
         else {
             for (String match : matchCases) {

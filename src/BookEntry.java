@@ -145,9 +145,9 @@ public class BookEntry {
      */
     @Override
     public int hashCode() {
-        int oddPrime = 31; // used for calculating HashMap
         int hashcode = Objects.hash(title, rating, ISBN, pages); // hashcode of other variables
-        hashcode = oddPrime * hashcode + Arrays.hashCode(authors); // hashcode of the array
+        hashcode = 31 * hashcode + Arrays.hashCode(authors); // hashcode of the array
+        // 31 chosen because of being an odd prime
         return hashcode;
     }
 }

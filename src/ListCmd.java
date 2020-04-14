@@ -9,9 +9,9 @@ import java.util.Objects;
 public class ListCmd extends LibraryCommand {
     private String listField; // instance field
 
-    /**String for long listing*/
+    /**Command for long listing*/
     private final String LONG = "long";
-    /**String for short listing*/
+    /**Command for short listing*/
     private final String SHORT = "short";
 
     /**
@@ -66,9 +66,9 @@ public class ListCmd extends LibraryCommand {
 
         else {
             String output; // output for short/blank
-            listOutput.append(listCmdBooks.size()).append(StdMsg.BOOK_NUM_MSG.toString()); // header of output
+            listOutput.append(listCmdBooks.size()).append(" books in library:\n"); // header of output
 
-            if (listField.equals(SHORT) || listField.isBlank()) { // if blank or short
+            if (listField.equals(SHORT) || listField.isBlank()) {
                 while (iterator.hasNext()) { //  Short printing
                         BookEntry book = iterator.next();
                         listOutput.append(book.getTitle()).append("\n"); // appending titles of the books
@@ -77,7 +77,7 @@ public class ListCmd extends LibraryCommand {
                 System.out.println(output);
             }
 
-            else if (listField.equals(LONG)) { // long
+            else if (listField.equals(LONG)) {
                 while (iterator.hasNext()){ //  Long printing
                         BookEntry book = iterator.next();
                         listOutput.append(book); // appending the string representation of book
