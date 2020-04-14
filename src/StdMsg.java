@@ -4,11 +4,11 @@ public enum StdMsg {
 
     STD_NULL_MSG("Given argument must not be null."), // error message for NullPointerExceptions
 
-    INVALID_RATING_MSG("Rating not in range"), // error message if ratings out of bound
+    INVALID_RATING_MSG("Rating not in range"), // error message for out of bound rating
 
-    INVALID_PAGES_MSG("Invalid Pages"), // error message if number of pages is invalid
+    INVALID_PAGES_MSG("Invalid Pages"), // error message for invalid number of pages
 
-    FILE_PARSING_ERROR("ERROR: Parsing book data failed: "), // parsing error message
+    FILE_PARSING_ERROR("ERROR: Parsing book data failed: "), // parsing failure message
 
     CONTENT_LOADING_ERROR("ERROR: No content loaded before parsing."); // content not loaded message
 
