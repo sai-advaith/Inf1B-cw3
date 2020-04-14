@@ -1,16 +1,18 @@
 /**This enums stores frequently used output messages and all the error messages.*/
 public enum StdMsg {
-    EMPTY_LIBRARY_MSG("The library has no book entries."), // library with no books
+    EMPTY_LIBRARY_MSG("The library has no book entries."), // Empty library message
 
-    STD_NULL_MSG("Given argument must not be null."), // error message for NullPointerExceptions
+    STD_NULL_MSG("Given argument must not be null."), // NullPointerExceptions Message
 
-    INVALID_RATING_MSG("Rating not in range"), // error message for out of bound rating
+    INVALID_RATING_MSG("Rating not in range"), // Rating out of bound message
 
-    INVALID_PAGES_MSG("Invalid Pages"), // error message for invalid number of pages
+    INVALID_PAGES_MSG("Invalid Pages"), // Invalid pages message
 
-    FILE_PARSING_ERROR("ERROR: Parsing book data failed: "), // parsing failure message
+    FILE_PARSING_ERROR("ERROR: Parsing book data failed: "), // Parsing error message
 
-    CONTENT_LOADING_ERROR("ERROR: No content loaded before parsing."); // content not loaded message
+    STD_ILLEGAL_MSG("Invalid argument for the command"), // IllegalArgumentException Message
+
+    CONTENT_LOADING_ERROR("ERROR: No content loaded before parsing."); // Content not loaded message
 
     private final String description; // description of the message
 

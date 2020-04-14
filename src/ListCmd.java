@@ -1,4 +1,3 @@
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,7 +25,7 @@ public class ListCmd extends LibraryCommand {
      * This method is an overriding method for parsing the arguments and
      * making sure the arguments received are long, short, or blank
      * @param listInput argument coming along with the list command type
-     * @return whether our argument is valid or not
+     * @return whether the argument is valid or not
      */
     @Override
     protected boolean parseArguments(String listInput) {
@@ -39,35 +38,36 @@ public class ListCmd extends LibraryCommand {
 
     }
 
-
     /**
      * This method executes the List Command of the code. 
      * @param data book data to be considered for command execution.
-     * The Titles or the books are printed as per the necessity of the user as stated in the List command
+     * The Titles of the books or the books itself are printed as per the necessity of the user as stated in the List command
      * @throws NullPointerException if the BookEntry list contains a null reference or data object is null
+     * @throws IllegalArgumentException if the the command argument is not LONG, SHORT or Blank
      */ 
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString()); //  the data object cannot be null
-
         List<BookEntry> listCmdBooks = data.getBookData();
         Objects.requireNonNull(listCmdBooks, StdMsg.STD_NULL_MSG.toString()); //  the list of books cannot be null
         if (listCmdBooks.contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
+
         StringBuilder listOutput = new StringBuilder(); //  The output for List command
 
         if (listCmdBooks.isEmpty()) {
             listOutput.append(StdMsg.EMPTY_LIBRARY_MSG.toString()); // output for empty list
             System.out.println(listOutput);
-        }
-        else {
+        } else {
             listOutput.append(listCmdBooks.size()).append(" books in library:\n"); // header of output
+
             if (listField.equals(SHORT) || listField.isBlank()) {
                 System.out.println(shortPrint(listCmdBooks,listOutput));
-            }
-            else if (listField.equals(LONG)) {
+            } else if (listField.equals(LONG)) {
                 System.out.print(longPrint(listCmdBooks,listOutput)); // print to avoid extra linebreaks
+            } else {
+                throw new IllegalArgumentException(StdMsg.STD_ILLEGAL_MSG.toString()); // if not long short or blank
             }
         }
     }
@@ -82,7 +82,8 @@ public class ListCmd extends LibraryCommand {
         for (BookEntry book : listCmdBooks) { //  Short printing
             listOutput.append(book.getTitle()).append("\n"); // appending titles of the books
         }
-        return listOutput.toString().trim();
+        int indexFromLast = listOutput.lastIndexOf("\n"); // removing additional linebreak from the loop
+        return listOutput.toString().substring(0,indexFromLast);
     }
 
     /**

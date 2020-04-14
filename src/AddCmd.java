@@ -15,9 +15,9 @@ public class AddCmd extends LibraryCommand {
     }
 
     /**
-     * This is to parse the file path as an argument input and then return whether it is a valid file type
+     * This is to parse the file path and then return whether it is a valid file type
      * @param addInput is the file name/path which will give us a greater understanding of whether the file is valid
-     * @return true if the it is a csv file
+     * @return true if it is a csv file
      * @throws NullPointerException if the string input is null
      */
     @Override

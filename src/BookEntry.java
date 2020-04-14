@@ -27,7 +27,7 @@ public class BookEntry {
     /**Maximum book rating*/
     public final float MAX_RATING = 5.0f;
 
-    /**Minimum number of pages*/
+    /**Minimum number of pages in a book*/
     public final int MIN_PAGES = 0;
     /**
      * This is a parameterised constructor to initialise the encapsulated variables
@@ -39,22 +39,16 @@ public class BookEntry {
      * @throws IllegalArgumentException if any of the parameters of the constructor are not valid
      * @throws NullPointerException if any of the parameters being passed into the constructor are null or contain null
      */
-    public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) throws IllegalArgumentException,
-            NullPointerException{
+    public BookEntry(String title,String[] authors,float rating,String ISBN,int pages) {
         Objects.requireNonNull(title, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(authors, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(ISBN, StdMsg.STD_NULL_MSG.toString()); // checking for null in the parameters
 
         if (Arrays.asList(authors).contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // list cannot contain null
-        }
-        else if (rating < MIN_RATING || rating > MAX_RATING) {
+        } else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // ratings check
-        }
-        else if (Float.isInfinite(rating) || Float.isNaN(rating)) {
-            throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // if ratings is not a valid float
-        }
-        else if (pages < MIN_PAGES) {
+        } else if (pages < MIN_PAGES) {
             throw new IllegalArgumentException(StdMsg.INVALID_PAGES_MSG.toString()); // pages check
         }
         // assigning once possible errors are checked for
@@ -97,7 +91,6 @@ public class BookEntry {
         return ISBN;
     }
 
-
     /**
      * This is the getter method to attain the number of pages in the book
      * @return the pages of the book
@@ -107,8 +100,8 @@ public class BookEntry {
     }
 
     /**
-     * This overrides toString() function, converting the book object to a string
-     * @return the book object as a string
+     * This overrides toString() function, converting the BookEntry object to a string
+     * @return the BookEntry object as a string
      */
     @Override
     public String toString() {

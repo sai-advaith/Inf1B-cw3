@@ -12,7 +12,7 @@ public class GroupCmd extends LibraryCommand {
     private String groupField; //  instance field
 
     /**If the title is numeric i.e. does not start with alphabet*/
-    private final String numericTitle = "[0-9]";
+    private final String NUMERIC_TITLE = "[0-9]";
 
     /**
      * Constructor of group Command to call the superclass constructor
@@ -41,6 +41,7 @@ public class GroupCmd extends LibraryCommand {
      * Overriding execute method which prints the books in a group based on corresponding user request
      * @param data is the LibraryData object which is used to access the BookEntry list
      * @throws NullPointerException if the BookEntry list contains a null reference or LibraryData object is null
+     * @throws IllegalArgumentException if the input is not AUTHOR or TITLE
      */
     @Override
     public void execute(LibraryData data) {
@@ -51,16 +52,16 @@ public class GroupCmd extends LibraryCommand {
         if (books.contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
-
         Map<String, List<String>> groupMap = new HashMap<>(); // HashMap to manipulate the data
         switch(groupField) {
             case RemoveCmd.TITLE:
                 titleGroup(groupMap, books);// grouping titles
                 break;
-
             case RemoveCmd.AUTHOR:
                 authorGroup(groupMap, books);// grouping authors
                 break;
+            default:
+                throw new IllegalArgumentException(StdMsg.STD_ILLEGAL_MSG.toString());
         }
         // lexicographic sorting of the keys
         TreeMap<String,List<String>> sortedMap = new TreeMap<>(groupMap);
@@ -83,19 +84,16 @@ public class GroupCmd extends LibraryCommand {
 
         if (groupArg.isEmpty()) {
             output.append(StdMsg.EMPTY_LIBRARY_MSG.toString());//  the case where the HashMap has no values
-        }
-
-        else {//  printing the particular HashMap
+        } else {//  printing the particular HashMap
             output.append("Grouped data by ").append(groupField).append("\n");
             for (Map.Entry<String,List<String>> arg : groupArg.entrySet()) {
-                if (!arg.getKey().equals(numericTitle)){
+                if (!arg.getKey().equals(NUMERIC_TITLE)){
                     output.append(groupPrefix);
-                    groupAppend(output, arg.getKey(), arg.getValue());
-                } // this difference makes sure that books with number titles come after all alphabets
-                else {
+                    keyAppend(output, arg.getKey(), arg.getValue());
+                } else {
                     numericOutput.append(groupPrefix);
-                    groupAppend(numericOutput, numericTitle, arg.getValue());
-                }
+                    keyAppend(numericOutput, NUMERIC_TITLE, arg.getValue());
+                } // this difference makes sure that books with numeric titles come after all alphabets
             }
         }
         // numeric group appears after alphabet group, based on the output in the assignment
@@ -109,7 +107,7 @@ public class GroupCmd extends LibraryCommand {
      * @param values all the book titles under that key
      * @throws NullPointerException if any of the function parameters are null
      */
-    private void groupAppend(StringBuilder output, String key, List<String> values) {
+    private void keyAppend (StringBuilder output, String key, List<String> values) {
         Objects.requireNonNull(output, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(key, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(values, StdMsg.STD_NULL_MSG.toString()); // error handling
@@ -134,8 +132,6 @@ public class GroupCmd extends LibraryCommand {
         return listConverter.toString();
     }
 
-
-
     /**
      * Performs the addition of keys and values (Data) to the HashMap
      * @param groupedData is the HashMap which contains the grouped data based on either AUTHOR or TITLE
@@ -147,11 +143,10 @@ public class GroupCmd extends LibraryCommand {
         Objects.requireNonNull(groupedData, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(titleCategory, StdMsg.STD_NULL_MSG.toString());
         Objects.requireNonNull(title, StdMsg.STD_NULL_MSG.toString()); // error handling
-
+        // No value returned as the parameters are passed by reference
         if (!groupedData.containsKey(titleCategory)) {
             groupedData.put(titleCategory, new ArrayList<>()); // if key does not exist, create a new one
         }
-        // No value returned as the parameters are passed by reference
 
         groupedData.get(titleCategory).add(title); // add values to key
     }
@@ -166,13 +161,11 @@ public class GroupCmd extends LibraryCommand {
         Objects.requireNonNull(books, StdMsg.STD_NULL_MSG.toString()); // error handling
         Objects.requireNonNull(titleMap,StdMsg.STD_NULL_MSG.toString());
         for (BookEntry book : books) {
-
             if (Character.isAlphabetic(book.getTitle().charAt(0))) { // checking the first letter
                 String titleCategory = String.valueOf(book.getTitle().charAt(0)).toUpperCase();
                 dataAdd(titleMap, titleCategory, book.getTitle());// non numeric titles
-            }
-            else {
-                dataAdd(titleMap, numericTitle, book.getTitle());// numeric titles
+            } else {
+                dataAdd(titleMap, NUMERIC_TITLE, book.getTitle());// numeric titles
             } // grouping all titles.
         }
     }

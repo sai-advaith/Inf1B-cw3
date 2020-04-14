@@ -40,11 +40,11 @@ public class RemoveCmd extends LibraryCommand {
         if (firstSpace != notFoundIndex){
             String removeType = getRemoveType(removeInput); // first argument: AUTHOR/TITLE
             String removeArg = getRemoveArg(removeInput); // second argument: cannot be blank
+
             if ((removeType.equals(AUTHOR) || removeType.equals(TITLE)) && !(removeArg.isBlank())) {
                 removeField = removeInput;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -56,13 +56,14 @@ public class RemoveCmd extends LibraryCommand {
      * There are different procedures for removal of AUTHOR and TITLE from the Library
      * @param data LibraryData object to access the BookEntry list.
      * @throws NullPointerException if the data contains a null object
+     * @throws IllegalArgumentException if the removal type is not AUTHOR or TITLE
      */
     @Override
     public void execute(LibraryData data) {
         Objects.requireNonNull(data, StdMsg.STD_NULL_MSG.toString());
-
         List<BookEntry> bookList = data.getBookData();
         Objects.requireNonNull(bookList, StdMsg.STD_NULL_MSG.toString());
+
         if (bookList.contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
@@ -74,16 +75,16 @@ public class RemoveCmd extends LibraryCommand {
                 int removedBooks = authorRemoval(bookList,author);
                 removalOutput.append(removedBooks).append(" books removed for author: ").append(author);
                 break;
-
             case TITLE:
                 String title = getRemoveArg(removeField); // the title of the book to be removed
                 if (titleRemoval(bookList,title)) {
                     removalOutput.append(title).append(": removed successfully."); // removed
-                }
-                else {
+                } else {
                     removalOutput.append(title).append(": not found.");// title not found
                 }
                 break;
+            default:
+                throw new IllegalArgumentException(StdMsg.STD_ILLEGAL_MSG.toString());
         }
         System.out.println(removalOutput);//  printing the entire string to reduce coupling
     }
@@ -102,12 +103,11 @@ public class RemoveCmd extends LibraryCommand {
         Iterator<BookEntry> bookIter = books.iterator(); // declaring iterator
         while (bookIter.hasNext()) {
             BookEntry book = bookIter.next();
-
-                List<String> bookAuthors = Arrays.asList(book.getAuthors());
-                if (bookAuthors.contains(author)) { // if list of authors contain the user input
-                    bookIter.remove(); // removing the book
-                    removedBooks++; // updating
-                }
+            List<String> bookAuthors = Arrays.asList(book.getAuthors());
+            if (bookAuthors.contains(author)) { // if list of authors contain the user input
+                bookIter.remove(); // removing the book
+                removedBooks++; // updating
+            }
         }
         return removedBooks; //  returning the removed books
     }
