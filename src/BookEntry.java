@@ -51,6 +51,9 @@ public class BookEntry {
         else if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // ratings check
         }
+        else if (Float.isInfinite(rating) || Float.isNaN(rating)) {
+            throw new IllegalArgumentException(StdMsg.INVALID_RATING_MSG.toString()); // if ratings is not a valid float
+        }
         else if (pages < MIN_PAGES) {
             throw new IllegalArgumentException(StdMsg.INVALID_PAGES_MSG.toString()); // pages check
         }

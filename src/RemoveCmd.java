@@ -85,7 +85,6 @@ public class RemoveCmd extends LibraryCommand {
                 }
                 break;
         }
-
         System.out.println(removalOutput);//  printing the entire string to reduce coupling
     }
 

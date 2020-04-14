@@ -48,22 +48,34 @@ public class SearchCmd extends LibraryCommand {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // should not contain null
         }
 
-        List<String> titleList = new ArrayList<>(); // list of all titles
-        List<String> matchCases; // list of all match cases
-        for (BookEntry book : booksList) {
-                titleList.add(book.getTitle()); //  storing the title of every book in a list
-        }
+        List<String> titleList = listTitles(booksList);
+        List<String> matchCases = inTitle(titleList); // list of all match cases
 
-        matchCases = inTitle(titleList);
         if (matchCases.isEmpty()) {
             System.out.println("No hits found for search term: "+searchField);//  the case where the length is zero
         }
-        else {
+        else { // if searches found
             for (String match : matchCases) {
                 System.out.println(match); //  this is the printing of the processed list
             }
         }
 
+    }
+
+    /**
+     * Adding all the titles of the Library in a list
+     * @param bookList is the list of BookEntry objects in the library
+     * @return a list of titles of the books in the library
+     * @throws NullPointerException if the List of BookEntry objects is null
+     */
+    private List<String> listTitles(List<BookEntry> bookList) {
+        Objects.requireNonNull(bookList,StdMsg.STD_NULL_MSG.toString());
+
+        List<String> titleList = new ArrayList<>();
+        for (BookEntry book : bookList) {
+            titleList.add(book.getTitle()); //  storing the title of every book in a list
+        }
+        return titleList;
     }
 
     /**

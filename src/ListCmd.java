@@ -55,36 +55,46 @@ public class ListCmd extends LibraryCommand {
         if (listCmdBooks.contains(null)) {
             throw new NullPointerException(StdMsg.STD_NULL_MSG.toString()); // cannot contain null
         }
-
-        Iterator<BookEntry> iterator = listCmdBooks.iterator();
         StringBuilder listOutput = new StringBuilder(); //  The output for List command
 
         if (listCmdBooks.isEmpty()) {
             listOutput.append(StdMsg.EMPTY_LIBRARY_MSG.toString()); // output for empty list
             System.out.println(listOutput);
         }
-
         else {
-            String output; // output for short/blank
             listOutput.append(listCmdBooks.size()).append(" books in library:\n"); // header of output
-
             if (listField.equals(SHORT) || listField.isBlank()) {
-                while (iterator.hasNext()) { //  Short printing
-                        BookEntry book = iterator.next();
-                        listOutput.append(book.getTitle()).append("\n"); // appending titles of the books
-                }
-                output = listOutput.toString().trim(); // trimming the line break appearing in the last line
-                System.out.println(output);
+                System.out.println(shortPrint(listCmdBooks,listOutput));
             }
-
             else if (listField.equals(LONG)) {
-                while (iterator.hasNext()){ //  Long printing
-                        BookEntry book = iterator.next();
-                        listOutput.append(book); // appending the string representation of book
-                        listOutput.append("\n\n");// since there a line break after every output
-                }
-                System.out.print(listOutput); // print to avoid extra linebreaks
+                System.out.print(longPrint(listCmdBooks,listOutput)); // print to avoid extra linebreaks
             }
         }
+    }
+
+    /**
+     * Printing the titles of the book without linebreaks in between them
+     * @param listCmdBooks is the list of BookEntry objects
+     * @param listOutput is to store the output of list command
+     * @return the trimmed string, without any linebreaks in the end
+     */
+    private String shortPrint(List<BookEntry> listCmdBooks, StringBuilder listOutput) {
+        for (BookEntry book : listCmdBooks) { //  Short printing
+            listOutput.append(book.getTitle()).append("\n"); // appending titles of the books
+        }
+        return listOutput.toString().trim();
+    }
+
+    /**
+     * Printing the book as a string with linebreaks in between them
+     * @param listCmdBooks is the list of BookEntry objects
+     * @param listOutput is to store the output of list command
+     * @return return the StringBuilder with a linebreak in the end
+     */
+    private StringBuilder longPrint(List<BookEntry> listCmdBooks, StringBuilder listOutput) {
+        for (BookEntry book : listCmdBooks) { //  Long printing
+            listOutput.append(book).append("\n\n"); // appending the string representation of book
+        }
+        return listOutput;
     }
 }
